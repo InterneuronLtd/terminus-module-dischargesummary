@@ -1,0 +1,24 @@
+#tblPresciber.table.table-bordered{
+    border:1px solid #343a40 !important;
+}
+
+#tblPresciber.table.table-bordered > thead > tr > th{
+    border:1px solid #343a40 !important;
+}
+
+#tblPresciber.table.table-bordered > tr > td{
+    border:1px solid #343a40 !important;
+}
+
+#tblPrecription.table.table-bordered{
+    border:1px solid #343a40 !important;
+}
+
+#tblPrecription.table.table-bordered > thead > tr > th{
+    border:1px solid #343a40 !important;
+}
+
+#tblPrecription.table.table-bordered > tbody > tr > td{
+    border:1px solid #343a40 !important;
+}
+

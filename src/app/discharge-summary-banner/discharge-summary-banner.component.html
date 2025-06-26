@@ -1,0 +1,141 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+
+    <div class="col-md-4" *ngIf="showEncounterDetails == true">
+      <table style="width: 100%; font-size: 0.8em;">
+        <tr>
+            <td>
+                <strong>Lead Consultant</strong>
+            </td>
+            <td>
+                {{leadConsultant}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Specialty</strong>
+            </td>
+            <td>
+                {{specialty}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Last known location</strong>
+            </td>
+            <td>
+                {{ward}}
+            </td>
+        </tr>
+    </table>
+    </div>
+    <div class="col-md-4" *ngIf="showEncounterDetails == true">
+      <table style="width: 100%; font-size: 0.8em;">
+        <tr>
+            <td>
+                <strong>Encounter Status</strong>
+            </td>
+            <td>
+                <span *ngIf="dischargedatetime != null && isexpecteddateofdischarge != true">Discharged</span>
+                <span *ngIf="dischargedatetime == null || isexpecteddateofdischarge == true">Currently Admitted</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Admit Date</strong>
+            </td>
+            <td>
+                {{admitdatetime}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Discharge Date</strong>
+            </td>
+            <td>
+                <span *ngIf="dischargedatetime != null && isexpecteddateofdischarge != true">{{dischargedatetime}}</span>
+                <span *ngIf="dischargedatetime == null || isexpecteddateofdischarge == true">N/A</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <strong class="text-danger">{{nhsPatient}}</strong>
+            </td>
+        </tr>
+    </table>
+    </div>
+
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-12" style="margin-bottom: 5px;">
+          <span style="width: 100%;" class="">{{bannerLabel}}</span>
+        </div>
+      </div>
+    <div class="row" style="font-size: 0.8em;">
+      <div class="col-md-4">
+          Completed by Clinician
+      </div>
+      <div class="col-md-1">
+          <div *ngIf="dischargeSummaryDetails?.completedbyclinician == true; then thenBlock else elseBlock"></div>
+      </div>
+  </div>
+  <div class="row" style="font-size: 0.8em;">
+      <div class="col-md-4">
+          Reviewed by Pharmacy
+      </div>
+      <div class="col-md-1">
+          <div *ngIf="dischargeSummaryDetails?.completedbypharmacy == true; then thenBlock else elseBlock"></div>
+      </div>
+  </div>
+  <div class="row" style="font-size: 0.8em;">
+      <div class="col-md-4">
+          Discharged with TTAs
+      </div>
+      <div class="col-md-1">
+          <div *ngIf="dischargeSummaryDetails?.dischargesummarycompleted == true; then thenBlock else elseBlock"></div>
+      </div>
+  </div>
+  </div>
+  </div>
+</div>
+<!-- <div class="card">
+    <div class="card-body"> -->
+
+
+
+
+
+
+
+
+
+
+    <!-- </div>
+</div> -->
+<ng-template #thenBlock>
+    <i class="fa fa-check text-success"></i>
+</ng-template>
+<ng-template #elseBlock>
+    <i class="fa fa-times text-danger"></i>
+</ng-template>

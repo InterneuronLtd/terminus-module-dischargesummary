@@ -1,0 +1,28 @@
+.ck-editor__editable {
+    /* max-height: 200px !important; */
+}
+
+.ck-editor__main{
+    border-color: #f00e0e !important;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

@@ -1,0 +1,29 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div *ngIf="person?.person_id != null">
+    <!-- <app-new-discharge-summary *ngIf="selectedView === 'New Discharge Summary'" [person]="person" (personChange)="update()" (viewClosed)="onViewClosed($event)" (viewChange)="getNotification($event)"></app-new-discharge-summary> -->
+    <app-list-discharge-summary *ngIf="selectedView === 'List Discharge Summary'" [person]="person" (personChange)="update()" (viewClosed)="onViewClosed($event)" (viewChange)="getNotification($event)"></app-list-discharge-summary>
+    <app-edit-discharge-summary *ngIf="selectedView != 'List Discharge Summary'" [person]="person" (personChange)="update()" (viewClosed)="onViewClosed($event)" (viewChange)="getNotification($event)"></app-edit-discharge-summary>
+    <!-- <app-edit-discharge-summary *ngIf="selectedView === 'Edit Discharge Summary' || selectedView === 'View Discharge Summary' || selectedView === 'Ready For Discharge' || selectedView === 'Complete Discharge Summary'" [person]="person" (personChange)="update()" (viewClosed)="onViewClosed($event)" (viewChange)="getNotification($event)"></app-edit-discharge-summary> -->
+    <!-- <app-view-pharmacy-details *ngIf="selectedView === 'View Discharge Summary'" [person]="person" (personChange)="update()" (viewClosed)="onViewClosed($event)" (viewChange)="getNotification($event)"></app-view-pharmacy-details>
+    <app-ready-for-discharge *ngIf="selectedView === 'Ready For Discharge'" [person]="person" (personChange)="update()" (viewClosed)="onViewClosed($event)" (viewChange)="getNotification($event)"></app-ready-for-discharge>
+    <app-complete-discharge-summary-details *ngIf="selectedView === 'Complete Discharge Summary'" [person]="person" (personChange)="update()" (viewClosed)="onViewClosed($event)" (viewChange)="getNotification($event)"></app-complete-discharge-summary-details> -->
+</div>

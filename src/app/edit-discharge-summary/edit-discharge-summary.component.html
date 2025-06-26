@@ -1,0 +1,945 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div *ngIf="dischargeSummary && notesData">
+<!-- <h1> Input Encounter ID:  {{ encounterId }} </h1>
+<h1> AppService EncounterID : {{ appService.encounterId }} </h1>
+
+<div class="alert alert-warning">
+  personDetails: {{personDetails}}
+  <br />
+  person_id: {{personId}}
+  <br />
+  encounter_Id: {{encounterId}}
+
+</div> -->
+
+
+<!-- Modal resetModalContent -->
+<ng-template #resetModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-dark" id="resetModalContent-title">
+      Discharge Prescription has been edited">
+    </h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+          <h5>The discharge prescription has been edited after the discharging clinician has digitally signed and completed the clinician declaration.</h5>
+
+          <br />
+
+          <h5>The discharge summary status will be reset</h5>
+
+          <br />
+          Clinician declaration  digitally signed and marked as completed by {{dischargeSummary.cliniciandeclarationcompletedby}} on {{dischargeSummary.cliniciandeclarationcompletedtimestamp| date:'dd/MM/yyyy HH:mm'}} <br />
+          Discharge Prescription edited by  {{mod.modifiedby}} on {{mod.modifiedon | date :'dd/MM/yyyy HH:mm:ss'}} <br />
+
+
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeAllModals()">Close</button>
+  </div>
+</ng-template>
+
+
+<!-- Modal clinicianValidationModalContent -->
+<ng-template #clinicianValidationModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-dark" id="clinicianValidationModalContent-title">Clinician Declaration</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <h5>Please complete the following fields</h5>
+
+        <div *ngIf="!isDischarginClinicianValidationPassed" class="text-danger" style="margin-top: 7px;">
+          <ul>
+            <li *ngIf="!isDischarginClinicianValidationEDD">Expected date of discharge</li>
+            <li *ngIf="!isDischarginClinicianValidationClinicalSummaryNotes">Clinical summary notes</li>
+            <li *ngIf="!isDischarginClinicianValidationVTENotes">VTE Prophylaxis and Anticoagulation notes</li>
+            <li *ngIf="!isDischarginClinicianValidationDischargePlan">Discharge plan</li>
+            <li *ngIf="!isDischarginClinicianValidationInvestigationResults">Investigation results</li>
+            <li *ngIf="!validationIndividualRequirements">Individual requirements</li>
+            <li *ngIf="!validationSafeGaurdingRiskFromOthers">Safeguarding risk from others</li>
+            <li *ngIf="!validationSafeGaurdingRiskToOthers">Safeguarding risk to others</li>
+            <li *ngIf="!validationSafeGaurdingRiskToSelf">Safeguarding risk to self</li>
+            <li *ngIf="!validationSocialWorker">Social worker details</li>
+            <li *ngIf="!isDischarginClinicianValidationDigitallySigned">
+              Confirm that you have :
+                <ul>
+                  <li>I have COMPLETED the Medication Discharge Summary and signed against any controlled drugs</li>
+                  <li>I have completed the Clinician Section of the Discharge Summary</li>
+                </ul>
+            </li>
+          </ul>
+
+
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeAllModals()">Close</button>
+  </div>
+</ng-template>
+
+
+<!-- Modal Reset Clinician Declaration -->
+<ng-template #resetClinicianDeclarationModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-dark" id="resetClinicianDeclarationModalContent-title">Reset Clinician Declaration</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+          Please confirm that you wish to reset the clinician declaration.
+
+          <br />
+          This will reset the clinician declaration and will also reset the pharmacist declaration (if completed) and the discharge paperwork and TTA declaration (if completed).
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-outline-secondary mr-auto" (click)="closeAllModals()">No, cancel</button>
+    <button type="button" class="btn btn-outline-danger" (click)="resetClinicianDeclaration()">Yes, reset</button>
+
+
+
+
+  </div>
+</ng-template>
+
+<!-- Modal Discharge Summary Completed -->
+<ng-template #dischargeSummaryCompleted let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-dark" id="dischargeSummaryCompleted-title">Discharge Summary Completed</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div>
+        <div class=""  style="font-size:0.8em; margin-top:5px; margin-left: 5px;">
+          <strong><i class="fa fa-info-circle"></i> Discharge summary is already completed by the {{dischargeSummaryCompletedBy}} and the system is unable to update the data</strong>
+          <!-- <br />
+          <button class="btn btn-secondary btn-sm edit-vte" data-bs-toggle="modal" data-bs-target="#vteModal"><i class="fa-solid fa-pencil"></i> Open Assessments Module</button> -->
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-info text-white" style="float: right;" (click)="reloadPage()"
+        >Ok</button>
+
+  </div>
+</ng-template>
+
+
+
+<!-- Modal pharmacyValidationModalContent -->
+<ng-template #pharmacyValidationModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-dark" id="pharmacyValidationModalContent-title">Medicines Review Declaration</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <h5>Please complete the following fields</h5>
+
+        <div *ngIf="!isPharmacyReviewValidationPassed" class="text-danger" style="margin-top: 7px;">
+          <ul>
+            <ul >
+              <li *ngIf="!isDischarginClinicianValidationEDD">Expected date of discharge</li>
+              <li *ngIf="!isDischarginClinicianValidationVTENotes">VTE Prophylaxis and Anticoagulation notes</li>
+              <li *ngIf="!validationPharmacyNotes">Pharmacy notes</li>
+              <li *ngIf="!validationIndividualRequirements">Individual requirements</li>
+              <li *ngIf="!validationSafeGaurdingRiskFromOthers">Safeguarding risk from others</li>
+              <li *ngIf="!validationSafeGaurdingRiskToOthers">Safeguarding risk to others</li>
+              <li *ngIf="!validationSafeGaurdingRiskToSelf">Safeguarding risk to self</li>
+              <li *ngIf="!isPharmacyValidationDigitallySigned">Confirm that you have reviewed the Medication Discharge Summary and authorised the discharge prescription</li>
+              <li *ngIf="!validationSocialWorker">Social worker details</li>
+            </ul>
+          </ul>
+
+
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeAllModals()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Modal Reset Pharmacy Declaration -->
+<ng-template #resetPharmacyDeclarationModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-dark" id="resetClinicianDeclarationModalContent-title">Reset Medicines Review Declaration</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+          Please confirm that you wish to reset the medicines review declaration.
+
+          <br />
+          This will reset the medicines review declaration and the discharge paperwork and TTA declaration (if completed).
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-outline-secondary mr-auto" (click)="closeAllModals()">No, cancel</button>
+    <button type="button" class="btn btn-outline-danger" (click)="resetPharmacyDeclaration()">Yes, reset</button>
+
+
+
+
+  </div>
+</ng-template>
+
+
+
+<!-- Modal nurseValidationModalContent -->
+<ng-template #nurseValidationModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="nurseValidationModalContent-title">Discharge Paperwork and TTA Declaration</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <h5>Please complete the following fields</h5>
+
+        <div *ngIf="!isNurseReviewValidationPassed" class="text-danger" style="margin-top: 7px;">
+          <ul >
+            <li *ngIf="!isDischarginClinicianValidationEDD">Expected date of discharge</li>
+            <li *ngIf="!validationIndividualRequirements">Individual requirements</li>
+            <li *ngIf="!validationSafeGaurdingRiskFromOthers">Safeguarding risk from others</li>
+            <li *ngIf="!validationSafeGaurdingRiskToOthers">Safeguarding risk to others</li>
+            <li *ngIf="!validationSafeGaurdingRiskToSelf">Safeguarding risk to self</li>
+            <li *ngIf="!validationSocialWorker">Social worker details</li>
+            <li *ngIf="!isNurseValidationDigitallySigned">
+              Confirm that you have
+              <ul>
+                <li>completed the discharge paperwork</li>
+                <li>checked and supplied all TTA medications</li>
+                <li>checked and returned all patients own medications (PODs) and emptied the POD locker</li>
+                <li>returned any POD CDs to the patient and supplied a sharps bin if required</li>
+              </ul>
+            </li>
+          </ul>
+
+
+
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeAllModals()">Close</button>
+  </div>
+</ng-template>
+
+
+
+
+<!-- Modal Reset Nurse Declaration -->
+<ng-template #resetNurseDeclarationModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-dark" id="resetNurseDeclarationModalContent-title">Reset Discharge Paperwork and TTA Declaration</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+          Please confirm that you wish to reset the discharge paperwork and TTA declaration.
+
+          <br />
+          This will reset the discharge paperwork and TTA declaration
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-outline-secondary mr-auto" (click)="closeAllModals()">No, cancel</button>
+    <button type="button" class="btn btn-outline-danger" (click)="resetNurseDeclaration()">Yes, reset</button>
+
+
+
+
+  </div>
+</ng-template>
+
+
+
+
+    <div class="row">
+      <div class="col-md-8">
+        <a class="text-secondary float-left border rounded" style="padding-left: 15px; padding-right:15px; cursor: pointer;" data-toggle="tooltip" data-placement="top" title="Back to discharge summaries list" (click)="listView()">
+
+          <i class="fa fa-arrow-left"></i>
+
+        </a>
+          <h5 class="text-secondary">  &nbsp;Edit Discharge Summary</h5>
+      </div>
+      <div class="col-md-4" style="text-align: right; font-size: 1.2em;">
+          <!-- <a class="text-secondary" style="padding-right:5px;" data-toggle="tooltip" data-placement="top" title="Back to discharge summaries list" (click)="listView()"> <i class="fa fa-list"></i> </a> -->
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <app-discharge-summary-banner [personDetails]="personDetails"></app-discharge-summary-banner>
+      </div>
+    </div>
+    <br />
+
+    <!-- <pre> {{mod | json }}</pre> -->
+
+    <div *ngIf = "showResetWarning" class="alert alert-warning">
+
+
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+
+            <span>&nbsp;The discharge prescription has been edited after the discharging clinician has digitally signed and completed the clinician declaration.</span>
+
+            <br /><br />
+
+            <span>The discharge summary status will be reset</span>
+
+            <br /><br />
+            <div style="font-style: italic; font-size: 0.8em;">
+              Clinician declaration  digitally signed and marked as completed by {{clinicianLastSavedBy}} on {{clinicianLastSavedTimestamp| date:'dd/MM/yyyy HH:mm:ss'}}. <br />
+              Discharge Prescription edited by  {{mod.modifiedby}} on {{mod.modifiedon | date :'dd/MM/yyyy HH:mm:ss'}}.
+          </div>
+
+
+    </div>
+
+    <div *ngIf="appService.isClinician && ((mod && !mod.iscomplete) || !mod)">
+
+      <div class="col-xs-12 alert alert-warning">
+
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            It will not be possible to digitally sign and mark this discharge summary as complete until the discharge prescription is completed in EPMA.
+      </div>
+
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <app-expected-discharge-date [personDetails]="personDetails" [notesData]="notesData"></app-expected-discharge-date>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <app-discharge-clinical-summary-notes [personData]="personData" [notesData]="notesData"></app-discharge-clinical-summary-notes>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <app-discharge-vte-notes [personData]="personData" [notesData]="notesData"></app-discharge-vte-notes>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <app-discharge-investigation-results-notes [personData]="personData" [notesData]="notesData"></app-discharge-investigation-results-notes>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <app-discharge-plan-notes [personData]="personData" [notesData]="notesData"></app-discharge-plan-notes>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <app-individual-requirements [personData]="personData" [notesData]="notesData"></app-individual-requirements>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+          <app-safe-gaurding [personData]="personData" [notesData]="notesData"></app-safe-gaurding>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+          <app-social-worker [personData]="personData" [notesData]="notesData"></app-social-worker>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+          <app-allergies [personData]="personData" [notesData]="notesData"></app-allergies>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <app-diagnosis [personData]="personData" [notesData]="notesData"></app-diagnosis>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <app-procedure [personData]="personData" [notesData]="notesData"></app-procedure>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+
+        <div *ngIf="mod" class="alert alert-light border">
+          <div *ngIf="mod.iscomplete">
+
+            <app-medications-medical-devices [notesData]="notesData" [fromComponent]="editDischargeSummary" (destroyTemplate)="destroyRecordsTemplate()"></app-medications-medical-devices>
+
+            <img src="../../assets/images/dischargesummary/Approved.svg" style="height:30px;">
+            &nbsp;
+            Discharge Prescription Completed - Last Modified by  {{mod.modifiedby}} on  : {{mod.modifiedon | date :'dd/MM/yyyy HH:mm'}} <br />
+
+
+
+          </div>
+          <div *ngIf="!mod.iscomplete">
+            <h5><span class="text-danger">*</span>Medication and Devices</h5>
+            <br />
+            <div class="alert alert-light border text-danger">
+              Medication and Devices will only be displayed once the discharge prescription is completed in EPMA.
+            </div>
+            <br /><br />
+
+            <img src="../../assets/images/dischargesummary/Rosette.png" style="height:30px;">
+            &nbsp;
+            Discharge Prescription Not Completed
+
+
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <app-pharmacy-notes [notesData]="notesData"></app-pharmacy-notes>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <br>
+
+
+    <!-- Start Clinician Declaration -->
+
+
+    <div *ngIf="appService.isClinician && mod && mod.iscomplete">
+      <div class="row" *ngIf="appService.isClinician && !dischargeSummary.completedbyclinician">
+        <div class="col-md-12">
+
+          <div class="alert alert-light border border-success rounded" [ngClass]="(!isDischarginClinicianValidationPassed) ? 'border-danger' : 'border-success'">
+            <h5 [ngClass]="(!isDischarginClinicianValidationPassed && dischargeClincianHasSaved) ? 'text-danger' : 'text-dark'">Clinician Declaration</h5>
+
+
+            <div class="row">
+                <div class="col-md-10">
+                    <div [ngClass]="(!isDischarginClinicianValidationPassed && dischargeClincianHasSaved) ? 'text-danger' : ''">
+                      <ul>
+                        <li>I have COMPLETED the Medication Discharge Summary and signed against any controlled drugs</li>
+                        <li>I have completed the Clinician Section of the Discharge Summary</li>
+                      </ul>
+                    </div>
+                    <br />
+                </div>
+                <div class="col-md-2" style="text-align: right;">
+                    <div>
+                        <ng-toggle onColor="secondary" [disabled]="isDisabled" [checked]="dischargeSummary.cliniciandeclarationprintedandsigned" [(ngModel)]="dischargeSummary.cliniciandeclarationprintedandsigned" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light"
+                        
+                        ></ng-toggle>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+            <div class="row">
+                <button class="btn btn-success btn-block"
+                (click)="CheckReadyForClinicianSigning()" [disabled]="isDisabled"
+                ><i class="fa fa-check-circle"></i> Digitally sign and mark as completed by clinician</button>
+                <!-- <a href="javascript:void(0);" class="btn btn-success" (click)="saveClinicianDeclaration()"><i class="fa fa-check-circle"></i>  Mark as completed by clinician</a> -->
+            </div>
+
+            <div *ngIf="!isDischarginClinicianValidationPassed" style="color: #727272; margin-top: 12px; font-size: 0.8em; font-style: italic;">
+
+              <h6>Please complete the following fields:</h6>
+
+              <ul >
+                <li *ngIf="!isDischarginClinicianValidationEDD">Expected date of discharge</li>
+                <li *ngIf="!isDischarginClinicianValidationClinicalSummaryNotes">Clinical summary notes</li>
+                <li *ngIf="!isDischarginClinicianValidationVTENotes">VTE Prophylaxis and Anticoagulation notes</li>
+                <li *ngIf="!isDischarginClinicianValidationDischargePlan">Discharge plan</li>
+                <li *ngIf="!isDischarginClinicianValidationInvestigationResults">Investigation results</li>
+                <li *ngIf="!validationIndividualRequirements">Individual requirements</li>
+                <li *ngIf="!validationSafeGaurdingRiskFromOthers">Safeguarding risk from others</li>
+                <li *ngIf="!validationSafeGaurdingRiskToOthers">Safeguarding risk to others</li>
+                <li *ngIf="!validationSafeGaurdingRiskToSelf">Safeguarding risk to self</li>
+                <li *ngIf="!validationSocialWorker">Social worker details</li>
+                <li *ngIf="!isDischarginClinicianValidationDigitallySigned">
+                  Confirm that you have :
+                  <ul>
+                    <li>I have COMPLETED the Medication Discharge Summary and signed against any controlled drugs</li>
+                    <li>I have completed the Clinician Section of the Discharge Summary</li>
+                  </ul>
+                </li>
+              </ul>
+
+
+            </div>
+
+        </div>
+
+
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="dischargeSummary.completedbyclinician" class="alert alert-light border border-success rounded">
+        <div class="col-md-12">
+          <h5>Clinician Declaration</h5>
+
+          The clinician declaration was digitally signed and marked as completed by {{dischargeSummary.cliniciandeclarationcompletedby}} on {{dischargeSummary.cliniciandeclarationcompletedtimestamp| date:'dd/MM/yyyy HH:mm'}}
+
+
+          <br />
+          <br />
+
+          <div class="" *ngIf="appService.isClinician">
+
+            <span style="font-style: italic;">
+              * If you would like to make changes to any of the Discharging Clinician fields then you will need to reset the Clinician Declaration by clicking on the button below:
+            </span>
+
+            <br />
+            <button (click)="openConfirmResetClinicianDeclaration()" [disabled]="isDisabled" class="btn btn-outline-secondary btn-block" *ngIf="appService.isClinician">Reset Clinician Declaration</button>
+
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="alert alert-light border border-danger rounded" *ngIf="appService.isClinician  && ((mod && !mod.iscomplete) || ! mod)">
+
+      <h5>Clinician Declaration</h5>
+
+      <br />
+      <div class="alert alert-light border text-danger">
+        It will not be possible to digitally sign and mark this discharge summary as complete until the discharge prescription is completed in EPMA.
+      </div>
+
+    </div>
+
+
+    <div *ngIf="!appService.isClinician">
+
+      <div class="row" *ngIf="dischargeSummary.completedbyclinician" class="alert alert-light border border-success rounded">
+        <div class="col-md-12">
+          <h5>Clinician Declaration</h5>
+
+          The clinician declaration was digitally signed and marked as completed by {{dischargeSummary.cliniciandeclarationcompletedby}} on {{dischargeSummary.cliniciandeclarationcompletedtimestamp| date:'dd/MM/yyyy HH:mm'}}
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="!dischargeSummary.completedbyclinician" class="alert alert-light border border-danger rounded">
+        <div class="col-md-12">
+          <h5>Clinician Declaration</h5>
+
+          <div class="alert alert-light border text-danger">
+            The clinican declaration has not been signed and completed.
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- End Clinician Declaration -->
+
+
+    <!-- Start Pharmacy Declaration -->
+    <div *ngIf="appService.isPharmacist && dischargeSummary.completedbyclinician">
+      <div class="row" *ngIf="appService.isPharmacist && !dischargeSummary.completedbypharmacy">
+        <div class="col-md-12">
+
+          <div class="alert alert-light border border-success rounded" [ngClass]="(!isPharmacyReviewValidationPassed) ? 'border-danger' : 'border-success'">
+            <h5 [ngClass]="(!isPharmacyReviewValidationPassed && pharmacyHasSaved) ? 'text-danger' : 'text-dark'">Medicines Review Declaration</h5>
+
+
+            <div class="row">
+                <div class="col-md-10">
+                    <span [ngClass]="(!isPharmacyReviewValidationPassed && pharmacyHasSaved) ? 'text-danger' : ''">I have reviewed the Medication Discharge Summary and authorised the discharge prescription</span>
+                    <br />
+                </div>
+                <div class="col-md-2" style="text-align: right;">
+                    <div>
+                        <ng-toggle onColor="secondary" [disabled]="isDisabled" [checked]="dischargeSummary.pharmacydeclarationreviewed" [(ngModel)]="dischargeSummary.pharmacydeclarationreviewed" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light"
+                        
+                        ></ng-toggle>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+            <div class="row">
+                <button class="btn btn-success btn-block"
+                (click)="CheckReadyForPharmacySigning()" [disabled]="isDisabled"
+                ><i class="fa fa-check-circle"></i> Digitally sign and mark as reviewed</button>
+                <!-- <a href="javascript:void(0);" class="btn btn-success" (click)="saveClinicianDeclaration()"><i class="fa fa-check-circle"></i>  Mark as completed by clinician</a> -->
+            </div>
+
+            <div *ngIf="!isPharmacyReviewValidationPassed" style="color: #727272; margin-top: 12px; font-size: 0.8em; font-style: italic;">
+
+              <h6>Please complete the following fields:</h6>
+
+              <ul >
+                <li *ngIf="!isDischarginClinicianValidationEDD">Expected date of discharge</li>
+                <li *ngIf="!isDischarginClinicianValidationVTENotes">VTE Prophylaxis and Anticoagulation notes</li>
+                <li *ngIf="!validationPharmacyNotes">Pharmacy notes</li>
+                <li *ngIf="!validationIndividualRequirements">Individual requirements</li>
+                <li *ngIf="!validationSafeGaurdingRiskFromOthers">Safeguarding risk from others</li>
+                <li *ngIf="!validationSafeGaurdingRiskToOthers">Safeguarding risk to others</li>
+                <li *ngIf="!validationSafeGaurdingRiskToSelf">Safeguarding risk to self</li>
+                <li *ngIf="!validationSocialWorker">Social worker details</li>
+                <li *ngIf="!isPharmacyValidationDigitallySigned">Confirm that you have reviewed the Medication Discharge Summary and authorised the discharge prescription</li>
+              </ul>
+
+
+            </div>
+
+        </div>
+
+
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="dischargeSummary.completedbypharmacy" class="alert alert-light border border-success rounded">
+        <div class="col-md-12">
+          <h5>Medicines Review Declaration</h5>
+
+          The medicines review declaration was digitally signed and marked as completed by {{dischargeSummary.pharmacydeclarationcompletedby}} on {{dischargeSummary.pharmacydeclarationcompletedtimestamp| date:'dd/MM/yyyy HH:mm'}}
+
+
+          <br />
+          <br />
+
+          <div class="" *ngIf="appService.isPharmacist">
+
+            <span style="font-style: italic;">
+              * If you would like to make changes to any of the Discharging Clinician fields then you will need to reset the Clinician Declaration by clicking on the button below:
+            </span>
+
+            <br />
+            <button (click)="openConfirmResetPharmacyDeclaration()" [disabled]="isDisabled" class="btn btn-outline-secondary btn-block" *ngIf="appService.isPharmacist">Reset Medicines Review Declaration</button>
+
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="alert alert-light border border-danger rounded" *ngIf="appService.isPharmacist && !dischargeSummary.completedbyclinician">
+
+      <h5>Medicines Review Declaration</h5>
+
+      <br />
+      <div class="alert alert-light border text-danger">
+        It will not be possible to digitally sign and mark this discharge summary as complete until the discharging clinician has signed and marked their section as complete.
+      </div>
+
+    </div>
+
+
+    <div *ngIf="!appService.isPharmacist">
+
+      <div class="row" *ngIf="dischargeSummary.completedbypharmacy" class="alert alert-light border border-success rounded">
+        <div class="col-md-12">
+          <h5>Medicines Review Declaration</h5>
+
+          The medicines review declaration was digitally signed and marked as completed by {{dischargeSummary.pharmacydeclarationcompletedby}} on {{dischargeSummary.pharmacydeclarationcompletedtimestamp| date:'dd/MM/yyyy HH:mm'}}
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="!dischargeSummary.completedbypharmacy" class="alert alert-light border border-danger rounded">
+        <div class="col-md-12">
+          <h5>Medicines Review Declaration</h5>
+
+          <div class="alert alert-light border text-danger">
+            The medicines review declaration has not been signed and completed.
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- End Pharmacy Declaration -->
+
+    <!-- Start Nurse Declaration -->
+    <div *ngIf="appService.isNurse && dischargeSummary.completedbyclinician && dischargeSummary.completedbypharmacy">
+      <div class="row" *ngIf="appService.isNurse && !dischargeSummary.dischargesummarycompleted">
+        <div class="col-md-12">
+
+          <div class="alert alert-light border border-success rounded" [ngClass]="(!isNurseReviewValidationPassed) ? 'border-danger' : 'border-success'">
+            <h5 [ngClass]="(!isNurseReviewValidationPassed && nurseHasSaved) ? 'text-danger' : 'text-dark'">Discharge Paperwork and TTA Declaration</h5>
+
+
+            <div class="row">
+                <div class="col-md-10">
+                    <ul [ngClass]="(!isNurseReviewValidationPassed && nurseHasSaved) ? 'text-danger' : ''">
+                      <li> I have completed the discharge paperwork</li>
+                      <li>I have checked and supplied all TTA medications</li>
+                      <li>I have checked and returned all patients own medications (PODs) and emptied the POD locker</li>
+                      <li>I have returned any POD CDs to the patient and supplied a sharps bin if required</li>
+                    </ul>
+                    <br />
+                </div>
+                <div class="col-md-2" style="text-align: right;">
+                    <div>
+                        <ng-toggle onColor="secondary" [disabled]="isDisabled" [checked]="dischargeSummary.dischargedeclarationdocumentationcompleted" [(ngModel)]="dischargeSummary.dischargedeclarationdocumentationcompleted" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light"
+                        
+                        ></ng-toggle>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+            <div class="row">
+                <button class="btn btn-success btn-block"
+                (click)="CheckReadyForNurseSigning()" [disabled]="isDisabled"
+                ><i class="fa fa-check-circle"></i> Digitally sign and mark as ready for discharge</button>
+                <!-- <a href="javascript:void(0);" class="btn btn-success" (click)="saveClinicianDeclaration()"><i class="fa fa-check-circle"></i>  Mark as completed by clinician</a> -->
+            </div>
+
+            <div *ngIf="!isNurseReviewValidationPassed" style="color: #727272; margin-top: 12px; font-size: 0.8em; font-style: italic;">
+
+              <h6>Please complete the following fields:</h6>
+
+              <ul >
+                <li *ngIf="!isDischarginClinicianValidationEDD">Expected date of discharge</li>
+                <li *ngIf="!validationIndividualRequirements">Individual requirements</li>
+                <li *ngIf="!validationSafeGaurdingRiskFromOthers">Safeguarding risk from others</li>
+                <li *ngIf="!validationSafeGaurdingRiskToOthers">Safeguarding risk to others</li>
+                <li *ngIf="!validationSafeGaurdingRiskToSelf">Safeguarding risk to self</li>
+                <li *ngIf="!validationSocialWorker">Social worker details</li>
+                <li *ngIf="!isNurseValidationDigitallySigned">
+                  Confirm that you have
+                  <ul>
+                    <li>completed the discharge paperwork</li>
+                    <li>checked and supplied all TTA medications</li>
+                    <li>checked and returned all patients own medications (PODs) and emptied the POD locker</li>
+                    <li>returned any POD CDs to the patient and supplied a sharps bin if required</li>
+                  </ul>
+                </li>
+              </ul>
+
+
+            </div>
+
+        </div>
+
+
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="dischargeSummary.dischargesummarycompleted" class="alert alert-light border border-success rounded">
+        <div class="col-md-12">
+
+          <div class="row">
+            <div class="col-md-9">
+              <h5>Discharge Paperwork and TTA Declaration</h5>
+            </div>
+            <div class="col-md-3">
+              <a href="javascript:void(0);" class="btn btn-white pull-right" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print"></a>
+              <div class="dropdown-menu options-width">
+                <a class="dropdown-item dropdown-options" href="javascript:void(0)" (click)="printDischargeSummary()"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print Discharge Summary"> Print Discharge Summary</a>
+                <a class="dropdown-item dropdown-options" href="javascript:void(0)" (click)="printDischargeSummary(true)"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print Patient Leave Summary"> Print Patient Leave Summary</a>
+              </div>
+            </div>
+          </div>
+
+          The discharge paperwork and TTA declaration was digitally signed and marked as completed by {{dischargeSummary.dischargedeclarationcompletedby}} on {{dischargeSummary.dischargedeclarationcompletedtimestamp| date:'dd/MM/yyyy HH:mm'}}
+
+
+          <br />
+          <br />
+
+          <div class="" *ngIf="appService.isPharmacist">
+
+            <span style="font-style: italic;">
+              * If you would like to make changes to any of the Discharging Clinician fields then you will need to reset the Clinician Declaration by clicking on the button below:
+            </span>
+
+            <br />
+            <button (click)="openConfirmResetNurseDeclaration()" [disabled]="isDisabled" class="btn btn-outline-secondary btn-block" *ngIf="appService.isPharmacist">Reset Discharge Paperwork and TTA Declaration</button>
+
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="alert alert-light border border-danger rounded" *ngIf="appService.isNurse && (!dischargeSummary.completedbyclinician || !dischargeSummary.completedbypharmacy)">
+
+      <h5>Discharge Paperwork and TTA Declaration</h5>
+
+      <br />
+      <div class="alert alert-light border text-danger">
+        It will not be possible to digitally sign and mark this discharge summary as complete until the pharmacy review has been digitally signed marked as completed.
+      </div>
+
+    </div>
+
+
+    <div *ngIf="!appService.isNurse">
+
+      <div class="row" *ngIf="dischargeSummary.dischargesummarycompleted" class="alert alert-light border border-success rounded">
+        <div class="col-md-12">
+
+          <div class="row">
+            <div class="col-md-9">
+              <h5>Discharge Paperwork and TTA Declaration</h5>
+            </div>
+            <div class="col-md-3">
+              
+              <a href="javascript:void(0);" class="btn btn-white pull-right" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print"></a>
+              <div class="dropdown-menu options-width">
+                <a class="dropdown-item dropdown-options" href="javascript:void(0)" (click)="printDischargeSummary()"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print Discharge Summary"> Print Discharge Summary</a>
+                <a class="dropdown-item dropdown-options" href="javascript:void(0)" (click)="printDischargeSummary(true)"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print Patient Leave Summary"> Print Patient Leave Summary</a>
+              </div>
+            </div>
+          </div>
+
+
+          The discharge paperwork and TTA declaration was digitally signed and marked as completed by {{dischargeSummary.dischargedeclarationcompletedby}} on {{dischargeSummary.dischargedeclarationcompletedtimestamp| date:'dd/MM/yyyy HH:mm'}}
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="!dischargeSummary.dischargesummarycompleted" class="alert alert-light border border-danger rounded">
+        <div class="col-md-12">
+          <h5>Discharge Paperwork and TTA Declaration</h5>
+
+          <div class="alert alert-light border text-danger">
+            The discharge paperwork and TTA declaration has not been signed and completed.
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- End Nurse Declaration -->
+
+
+
+
+
+
+    <!-- <div *ngIf="mod" class="alert alert-light border">
+      <img *ngIf="mod.iscomplete" src="../../assets/images/dischargesummary/Approved.svg" style="height:30px;">
+      <img *ngIf="!mod.iscomplete" src="../../assets/images/dischargesummary/Rosette.png" style="height:30px;">
+      <br />
+      Prescription Completed : {{mod.iscomplete}} <br />
+      Action : {{mod.action}} <br />
+      Created By : {{mod.createdby}} <br />
+      Created On : {{mod.createdon | date :'dd/MM/yyyy'}} <br />
+      Modified By : {{mod.modifiedby}} <br />
+      Modified On : {{mod.modifiedon | date :'dd/MM/yyyy'}} <br />
+
+    </div> -->
+
+
+    <div style="height:120px;">
+
+    </div>
+</div>
+
+<div *ngIf="printing">
+  <app-print-discharge-summary-html  class="pdfUseOnly" (destroyComponent)="pdfDownloaded()" [isPatientLeaveSummary]="isPatientLeaveSummary">
+  </app-print-discharge-summary-html>
+</div>
+
+<!-- <div *ngIf="isPrint">
+    <app-print-discharge-prescription class="pdfUseOnly" [isControlledDrug]="isControlledDrug" 
+    [dischargeSummaryPrescriptionId]="dischargeSummaryPrescriptionId" (destroyTemplate)="destroyRecordsTemplate()">
+    </app-print-discharge-prescription>
+</div> -->
+
+<div *ngIf="isLoading">
+  <div id="pause" class="d-flex align-items-center justify-content-center">
+    <div id="spinner"></div>
+  </div>
+</div>
+

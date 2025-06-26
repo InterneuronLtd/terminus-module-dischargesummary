@@ -1,0 +1,62 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="alert alert-light border rounded" id="declarationPharmacy" [ngClass]="(!pharmacydeclarationreviewed) ? 'border-danger' : 'border-success'">
+    <div class="row">
+        <div class="col-md-10">
+            <h5>Medicines Review Declaration</h5>
+         </div>
+         <div class="col-md-2" style="text-align: right;">
+            <a href="javascript:void(0);" class="btn btn-white" data-bs-toggle="modal" (click)="print();"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print">  </a>
+         </div>
+    </div>
+    
+        <div class="row">
+        <div class="col-md-10">
+           I have reviewed the Medication Discharge Summary and authorised the discharge prescription
+            <br />
+        </div>
+        <div class="col-md-2" style="text-align: right;">
+            <div>
+                
+                <ng-toggle onColor="secondary" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light" [checked]="pharmacydeclarationreviewed" [(ngModel)]="pharmacydeclarationreviewed"></ng-toggle>
+            </div>
+            <!-- <div class="checkbox">
+                <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Yes" data-off="No" data-style="android">
+              </div> -->
+    
+        </div>
+    </div>
+    <hr />
+    <div class="row" *ngIf="!pharmacydeclarationreviewed">
+        <div class="col-md-12 text-danger">
+            <i>Please select Medicines Review Declaration</i>
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn btn-success btn-block" [disabled]="!pharmacydeclarationreviewed" (click)="getDischargeSummaryData()"><i class="fa fa-check-circle"></i> Mark as reviewed by pharmacy</button>
+        <!-- <a href="javascript:void(0);" class="btn btn-success" (click)="saveClinicianDeclaration()"><i class="fa fa-check-circle"></i>  Mark as completed by clinician</a> -->
+    </div>
+    <!-- <div class="d-grid gap-2">
+        <a href="javascript:void(0)" class="btn btn-success" (click)="savePharmacyReview()"><i class="fa fa-check-circle"></i>  Mark as reviewed by pharmacy</a>
+    </div> -->
+    
+</div>

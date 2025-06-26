@@ -1,0 +1,954 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<ng-template #dischargeSummary>
+
+        <div class="row" style="padding-bottom: 10px; margin-bottom: 5px;">
+            <div class="col-md-5" style="vertical-align: bottom !important; margin-left:15px !important;">
+                <h6 *ngIf="!patientLeaveSummary" class="text-secondary" style="color: black !important;">Discharge Summary</h6>
+                <h6 *ngIf="patientLeaveSummary" class="text-secondary" style="color: black !important">Patient Leave Summary</h6>
+                <br />
+                <strong class="text-danger">{{nhsPatient}}</strong>
+            </div>
+            <div class="col-md-4" style="margin-left: 45px !important">
+                <div style="text-align: right; font-size: 0.8em;">
+                    <label>Royal National Orthopaedic Hospital Trust</label><br/>
+                    <label>Brockley Hill</label><br/>
+                    <label>Stanmore</label><br/>
+                    <label>Middlesex HA7 4LP</label><br/>
+                    <label>Tel: 020 8954 2300</label>
+                </div>
+            </div>
+        </div>
+        <!-- <hr class="border"/> -->
+
+        <div>
+            <div class="row">
+                <h6 class="text-secondary" style="color: black !important; font-size: 1em; margin-left: 1.7cm;">Patient Details</h6>
+            </div>
+            <table style="margin-left: 1.2cm; height: 3.3cm">
+                <tr>
+                    <td style="width:9cm; padding-left: 7px; font-size: 0.8em;">
+                        <!-- <span><b>Name : </b></span> -->
+                        <span>{{familyname | uppercase}},&nbsp;{{firstname}}</span>
+                    </td>
+                    
+                    <td class="border-left" style="width: 9cm; padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span><b>DOB : </b></span>
+                        <span>{{dob}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <!-- <span><b>Address : </b></span> -->
+                        <span>{{addressLine1}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span><b>NHS Number : </b></span>
+                        <span>{{nhsNumber}}</span>
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span>{{addressLine2}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span><b>Ward : </b></span>
+                        <span>{{wardDisplay}}</span>
+                    </td>
+                </tr> -->
+                <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span>{{addressLine2}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span><b>Hospital Number : </b></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span>{{addressLine3}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span><b>Gender : </b></span>
+                        <span>{{gender}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span>{{addressLine4}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span><b>Patient Email Address : </b></span>
+                        <span>{{email}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span><b>Patient Telephone Number : </b></span>
+                        <span>{{personalNumber}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="margin-top: 0.7cm;">
+            <div class="row">
+                <h6 class="text-secondary" style="color: black !important; font-size: 1em; margin-left: 1.7cm;">GP Practice</h6>
+            </div>
+            <table style="margin-left: 1.2cm; height: 3.2cm">
+                <tr>
+                    <td style="width:9cm; padding-left: 7px; font-size: 0.8em;">
+                        <!-- <span><b>Name : </b></span> -->
+                        <span>{{gpPrefix + ' ' + gpFirstName + ' ' + gpFamilyName}}</span>
+                    </td>
+                    
+                    <td class="border-left" style="width: 9cm; padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <!-- <span><b>Practice identifier : </b></span>
+                        <span>{{gpCode}}</span> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <!-- <span><b>Practice : </b></span> -->
+                        <span>{{gpFacilityName}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span><b>Practice identifier : </b></span>
+                        <span>{{gpCode}}</span>
+                        <!-- <span><b>NHS Number : </b></span>
+                        <span>{{nhsNumber}}</span> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <!-- <span><b>Address : </b></span> -->
+                        <span>{{gpAddressLine1}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <!-- <span><b>NHS Number : </b></span>
+                        <span>{{nhsNumber}}</span> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span>{{gpAddressLine2}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <!-- <span><b>Hospital Number : </b></span> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span>{{gpAddressLine3}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <!-- <span><b>Gender : </b></span>
+                        <span>{{gender}}</span> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span>{{gpPostCode}}</span>
+                    </td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <!-- <span><b>Patient Email Address : </b></span>
+                        <span>{{email}}</span> -->
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td></td>
+                    <td class="border-left" style="padding-left: 7px; font-size: 0.8em; word-wrap: break-word;">
+                        <span><b>Patient Telephone Number : </b></span>
+                        <span>{{personalNumber}}</span>
+                    </td>
+                </tr> -->
+            </table>
+        </div>
+        
+        <!-- <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Person Demographics</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border-table">
+                    <tr>
+                        <td class="border border-right-bottom" style="width: 30%; padding-left: 7px; font-size: 0.9em;">
+                            <span>Patient Name</span>
+                        </td>
+                        <td class="border border-bottom" style="width: 70%; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{familyname | uppercase}},&nbsp;{{firstname}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Patient preferred name</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{preferredName}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Date of birth</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{dob}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Gender</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{gender}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>NHS Number</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{nhsNumber}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Address</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{address}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Patient Email Address</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{email}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Patient Telephone Number</span>
+                        </td>
+                        <td class="border" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{personalNumber}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div> -->
+        
+        <!-- <div style="margin-top: 8.8cm;">
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">GP Practice</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border-table">
+                    <tr>
+                        <td class="border border-right-bottom" style="width: 30%; padding-left: 7px; font-size: 0.9em;">
+                            <span>GP&nbsp;&nbsp;Practice</span>
+                        </td>
+                        <td class="border border-bottom" style="width: 70%; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{gpFacilityName}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>GP&nbsp;&nbsp;practice identifier</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{gpCode}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>GP&nbsp;&nbsp;name</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{gpPrefix + ' ' + gpFirstName + ' ' + gpFamilyName}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>GP&nbsp;&nbsp;practice address</span>
+                        </td>
+                        <td class="border" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{gpAddressLine1}}&nbsp;,&nbsp;</span>
+                            <span>{{gpAddressLine2}}&nbsp;,&nbsp;</span>
+                            <span>{{gpAddressLine3}}&nbsp;,&nbsp;</span>
+                            <span>{{gpPostCode}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div> -->
+        
+        <div style="margin-top: 1.5cm;">
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Individual Requirements</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <!-- <table style="width: 100%;">
+                    <tr style="height:50px; width:100%">
+                        <td>
+                            <div [innerHTML]="individualRequirements"></div>
+                        </td>
+                    </tr>
+                </table> -->
+                <div style="width: 100%; min-height: 50px; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;" class="border border-table">
+                    <div id="ulStyle" [innerHTML]="individualRequirements"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Safe Guarding</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width:100%" class="border-table">
+                    <tr>
+                        <td class="border border-right-bottom" style="width:30%; padding-left:7px; font-size: 0.9em;">
+                            Risks&nbsp;&nbsp;to self
+                        </td>
+                        <td class="border border-bottom" style="width:70%; padding-left:7px; font-size: 0.9em; word-wrap: break-word;">
+                          <div id="ulStyle" [innerHTML]="risksToSelf"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left:7px; font-size: 0.9em;">
+                          Risks&nbsp;&nbsp;to others
+                        </td>
+                        <td class="border border-bottom" style="padding-left:7px; font-size: 0.9em; word-wrap: break-word;">
+                          <div id="ulStyle" [innerHTML]="risksToOthers"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left:7px; font-size: 0.9em;">
+                            Risks&nbsp;&nbsp;from others
+                        </td>
+                        <td class="border border-bottom" style="padding-left:7px; font-size: 0.9em; word-wrap: break-word;">
+                          <div id="ulStyle" [innerHTML]="risksFromOthers"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-right" style="padding-left:7px; font-size: 0.9em;">
+                          Social&nbsp;&nbsp;Worker Details
+                      </td>
+                      <td class="border" style="padding-left:7px; font-size: 0.9em; word-wrap: break-word;">
+                        <div id="ulStyle" [innerHTML]="socialWorkerDetails"></div>
+                      </td>
+                  </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Referer Details</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border-table">
+                    <tr>
+                        <td class="border border-right-bottom" style="width: 30%; padding-left: 7px; font-size: 0.9em;">
+                            <span>Referral&nbsp;&nbsp;Type</span>
+                        </td>
+                        <td class="border border-bottom" style="width: 70%; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{referralType}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Effective&nbsp;&nbsp;Date</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{effectiveDate | date : 'dd/MM/yyyy'}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Processed&nbsp;&nbsp;Date</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{processedDate | date : 'dd/MM/yyyy'}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>UBRN</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{ubrn}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Referral&nbsp;&nbsp;From</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{referralFromName}}</span><br />
+                            <span>{{referralFromAddressLine1}}</span><br />
+                            <span>{{referralFromAddressLine2}}</span><br />
+                            <span>{{referralFromAddressCity}}</span><br />
+                            <span>{{referralFromState}}</span><br />
+                            <span>{{referralFromPostCode}}</span><br /><br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Referral&nbsp;&nbsp;To</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{referralToName}}</span><br />
+                            <span>{{referralToAddressLine1}}</span><br />
+                            <span>{{referralToAddressLine2}}</span><br />
+                            <span>{{referralToAddressCity}}</span><br />
+                            <span>{{referralToState}}</span><br />
+                            <span>{{referralToPostCode}}</span><br /><br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>National Specialty</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{referralFromSpecialtyNational}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Local Specialty</span>
+                        </td>
+                        <td class="border" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{referralFromSpecialtyLocal}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Admission Details</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border-table">
+                    <tr>
+                        <td class="border border-right-bottom" style="width: 30%; padding-left: 7px; font-size: 0.9em;">
+                            <span>Date of Admission</span>
+                        </td>
+                        <td class="border border-bottom" style="width: 70%; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{admitdatetime}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Lead Consultant</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{consultant}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Specialty</span>
+                        </td>
+                        <td class="border" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{specialty}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Discharge Details</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border-table">
+                    <tr>
+                        <td class="border border-right" style="width: 30%; padding-left: 7px; font-size: 0.9em;">
+                            <!-- <strong>Date of Discharge</strong> -->
+                            <span *ngIf="isExpectedDateOfDischarge != true">Date of Discharge </span>
+                            <span *ngIf="isExpectedDateOfDischarge">Expected Date of Discharge </span><br />
+                        </td>
+                        <td class="border" style="width: 70%; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{dischargedatetime}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right" style="width: 30%; padding-left: 7px; font-size: 0.9em;">
+                            <span>Ward </span>
+                        </td>
+                        <td class="border" style="width: 70%; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{wardDisplay}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Problem (Diagnosis) List</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border-table">
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Code</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Name</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Onset Date</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Clinical Status</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Verification Status</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Resolved Date</span>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let diagnosis_list of diagnosisList">
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{diagnosis_list.code}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{diagnosis_list.name}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{diagnosis_list.onsetdate | date :'dd/MM/yyyy'}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{diagnosis_list.clinicalstatus}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{diagnosis_list.verificationstatus}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{diagnosis_list.resolveddate | date :'dd/MM/yyyy'}}</span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="diagnosisList?.length == 0">
+                        <td colspan="6" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>No Data available</span>
+                        </td>  
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Procedures and Therapies List</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border-table">
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Code</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Name</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Procedure Date</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Status</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Performed by</span>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let procedure_list of procedureList">
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{procedure_list.code}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{procedure_list.name}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{procedure_list.proceduredate | date :'dd/MM/yyyy'}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{procedure_list.status?procedure_list.status:'UNKNOWN'}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{procedure_list.performedby}}</span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="procedureList?.length == 0">
+                        <td colspan="5" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>No Data available</span>
+                        </td>  
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Clinical Summary</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <!-- <table style="width: 100%; font-size: 0.8em;">
+                    <tr style="height:50px; width:100%">
+                        <td>
+                            <div [innerHTML]="clinicalSummaryNotes"></div>
+                        </td>
+                    </tr>
+                </table> -->
+                <div style="width: 100%; min-height:50px; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;" class="border border-table">
+                    <div id="ulStyle" [innerHTML]="clinicalSummaryNotes"></div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">VTE Prophylaxis and Anticoagulation notes</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <div style="width: 100%; min-height:50px; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;" class="border border-table">
+                    <div id="ulStyle" [innerHTML]="vteNotes"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Investigation Results</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <!-- <table style="width: 100%; font-size: 0.8em;">
+                    <tr style="height:50px; width:100%">
+                        <td>
+                            <div [innerHTML]="investigationResultNotes"></div>
+                        </td>
+                    </tr>
+                </table> -->
+                <div style="width: 100%; min-height: 50px; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;" class="border border-table">
+                    <div id="ulStyle" [innerHTML]="investigationResultNotes"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Allergies and Adverse Reactions</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border border-table">
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Allergen</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Criticality</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Category</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Reaction</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Status</span>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let allergy_list of allergyIntoleranceList">
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{allergy_list.causativeagentdescription}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{allergy_list.criticality == 'Unable to Assess' ? '' : allergy_list.criticality}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{allergy_list.category}}</span>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <div *ngIf="allergy_list?.reactionconcepts?.length > 0">
+                                <div *ngFor="let reaction of allergy_list?.reactionconcepts">
+                                    <span>
+                                    {{(reaction.term)?reaction.term:reaction._term}}
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                            <span>{{allergy_list.clinicalstatusvalue}}</span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="allergyIntoleranceList?.length == 0">
+                        <td colspan="5" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>No Data available</span>
+                        </td>  
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Medications and Medical Devices</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border border-table">
+                    <thead>
+                        <tr>
+                            <th class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                                Drug Details
+                            </th>
+                            <!-- <th>
+                                
+                            </th> -->
+                            <!-- <th>
+                                POD
+                            </th> -->
+                            <th>
+                                Supply on Discharge
+                            </th>
+                            <!-- <th>
+                                Quantity supplied
+                            </th>
+                            <th>
+                                Dispensed by
+                            </th>
+                            <th>
+                                Checked by
+                            </th>
+                            <th>
+                               GP to continue
+                            </th> -->
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let dsp of dischargesummaryprescription;">
+                        <tr>
+                            <th colspan="8" class="bg-light border border-table" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                                {{dsp.category}}
+                            </th>
+                        </tr>
+                        <tr *ngFor="let medsSum of dsp.medicationssummaries; let i= index;">
+                            <td class="border border-table" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                                <strong>{{medsSum.name}}</strong> <br />
+                                <div *ngIf="medsSum.iscontrolleddrug"><strong class="text-danger">*&nbsp;Controlled&nbsp;Drug</strong><br /></div>       
+                                <span *ngIf="medsSum.protocoldose?.length == 0">DOSE: {{medsSum.dose}}</span>
+                                <span *ngIf="medsSum.protocoldose?.length > 0">
+                                    DOSE:
+                                    <!-- <span *ngFor="let protocolDose of medsSum.protocoldose">
+                                        {{ protocolDose.isShowDate == true ? (protocolDose.date | date : 'dd-MM-yyyy HH:mm') : (protocolDose.date | date : 'HH:mm')}} - {{protocolDose.text}}<br />
+                                    </span> -->
+                                    <span *ngFor="let protocolDose of medsSum.protocoldose; let i = index">
+                                        <span *ngIf="protocolDose.isShowDate == true" [ngStyle]="{'margin-left': i > 0 ?'45px':''}">
+                                            {{(protocolDose.date | date : 'dd-MM-yyyy HH:mm')}} - {{protocolDose.text}}
+                                        </span>
+                                        <span *ngIf="protocolDose.isShowDate == false" style="margin-left: 122px;">
+                                            {{(protocolDose.date | date : 'HH:mm')}} - {{protocolDose.text}}
+                                        </span><br/>
+                                        <!-- {{ protocolDose.isShowDate == true ? (protocolDose.date | date : 'dd-MM-yyyy HH:mm') : (protocolDose.date | date : 'HH:mm')}} - {{protocolDose.text}}<br /> -->
+                                    </span>
+                                </span>
+                                <span *ngIf="medsSum.protocolmessage">{{medsSum.protocolmessage}}</span><br />
+                                <!-- <span *ngIf="medsSum.prescriptionenddate">
+                                    END DATE: {{medsSum.prescriptionenddate | date : 'dd-MM-yyyy HH:mm'}}<br/>
+                                </span> -->
+                                ROUTE&nbsp;:&nbsp;{{medsSum.route}} <br />
+                                {{medsSum.quantity}} <br />
+                                <div style="font-size: 0.8em; text-decoration: italic;" *ngIf="medsSum.status != null">
+                                    REASON FOR STATUS&nbsp;:&nbsp;{{medsSum.status}}
+                                    <br />
+                                </div>
+                                INDICATION&nbsp;:&nbsp;{{medsSum.indication}} <br />
+                                COMMENTS&nbsp;:&nbsp;{{medsSum.comments}}
+                            </td>
+                            <td class="border border-table" style="padding-left: 7px; font-size: 0.9em; word-wrap: break-word;">
+                                <div *ngIf="medsSum.supplyrequired != null && medsSum.supplyrequired.toLowerCase() == 'no'">
+                                    {{medsSum.supplyrequired}} <br />
+                                    {{medsSum.supplyrequiredreason}}
+                                </div>
+                                <div *ngIf="medsSum.supplyrequired != null && medsSum.supplyrequired.toLowerCase() == 'yes'">
+                                    {{medsSum.supplyrequired}} <br />
+                                    {{medsSum.requestedquantity}} 
+                                    {{medsSum.requestedquantityunits}} <br />
+                                    {{medsSum.requestordermessage}}
+                             
+                                </div>
+                            </td>
+                            <!-- <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <th>
+                            </th> -->
+                        </tr>
+                    </tbody>
+                    <!-- <tbody *ngIf="dischargesummaryprescription.length == 0">
+                        No Data available
+                    </tbody> -->
+                </table>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important;font-size: 1em;">Pharmacy Notes</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <!-- <table style="width: 100%; font-size: 0.8em;">
+                    <tr style="height:50px; width:100%">
+                        <td>
+                            <div [innerHTML]="pharmacyNotes"></div>
+                        </td>
+                    </tr>
+                </table> -->
+                <div style="width: 100%; min-height: 50px; padding-left: 7px; font-size: 0.9em; word-wrap: break-word;" class="border border-table">
+                    <div id="ulStyle" [innerHTML]="pharmacyNotes"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Discharge Plan</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <!-- <table style="width: 100%; font-size: 0.8em;">
+                    <tr style="height:50px; width:100%">
+                        <td>
+                            <div [innerHTML]="dischargePlanNotes"></div>
+                        </td>
+                    </tr>
+                </table> -->
+                <div style="width: 100%; min-height: 50px; padding-left: 7px;font-size: 0.9em; word-wrap: break-word;" class="border border-table">
+                    <div id="ulStyle" [innerHTML]="dischargePlanNotes"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <div class="row">
+                <div class="col-md-10 labelHeading">
+                    <h6 class="text-secondary" style="color: black !important; font-size: 1em;">Persons Completing</h6>
+                </div>
+            </div>
+        
+            <div class="col-md-10">
+                <table style="width: 100%;" class="border-table">
+                    <tr>
+                        <td class="border border-right-bottom" style="width: 30%; padding-left: 7px; font-size: 0.9em;">
+                            <span>Clinician</span>
+                        </td>
+                        <td class="border border-bottom" style="width: 70%; padding-left: 7px; font-size: 0.9em;">
+                            <span>{{clinicianDeclarationCompleteBy}} - {{clinicianDeclarationCompleteDate | date:'dd/MM/yyyy HH:mm'}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Pharmacy</span>
+                        </td>
+                        <td class="border border-bottom" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>{{pharmacyDeclarationCompleteBy}} - {{pharmacyDeclarationCompleteDate | date:'dd/MM/yyyy HH:mm'}}</span> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-right" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>Ward Discharge</span>
+                        </td>
+                        <td class="border" style="padding-left: 7px; font-size: 0.9em;">
+                            <span>{{dischargeDeclarationCompleteBy}} - {{dischargeDeclarationCompleteDate | date:'dd/MM/yyyy HH:mm'}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    
+</ng-template>
+
+
+<app-print-discharge-summary *ngIf="isDataReady==true" [customTemplate]="dischargeSummary" [patientDetails]="patientDetails" [view]="'l'" (destroyComponent)="pdfDownloaded()"
+[dimensions]="[842, 595]" [patientLeaveSummary]="patientLeaveSummary" [dischargeSummaryId]="dischargesummary_id" [dischargedatetime]="dischargedatetime" [allergyIntoleranceList]="allergyIntoleranceList"></app-print-discharge-summary>
+
+
+
+

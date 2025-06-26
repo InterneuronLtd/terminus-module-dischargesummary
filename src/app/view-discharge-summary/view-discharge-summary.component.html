@@ -1,0 +1,1100 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<!-- <div class="float-right">
+    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false"
+    aria-controls="collapsePersonDemographics collapseGPPractice collapseIndividualRequirements collapseSafeguarding collapseSocialWorker collapseReferrerDetails collapseAdmissionDetails
+    collapseDischargeDetails collapseProblems collapseProcedures collapseClinicalSummary collapseInvestigationResults collapseAllergies collapseVTE
+    collapseMedicationsAndMedicalDevices collapsePharmacyNotes collapseDischargePlan">Expand / Collapse All</button>
+</div>
+<br /> -->
+
+<!-- Modal Pharmacy Notes -->
+<ng-template #pharmacyModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modalEditPharmacyNotes">Edit Pharmacy Notes</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <app-pharmacy-notes [notesData]="notesData"></app-pharmacy-notes>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeEditModalAndRefreshData()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Modal Individual Requirements -->
+<ng-template #individualRequirementsModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modalEditIndividualRequirements">Edit Individual Requirements</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <app-individual-requirements [personData]="personData" [notesData]="notesData"></app-individual-requirements>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeEditModalAndRefreshData()">Close</button>
+  </div>
+</ng-template>
+
+
+<!-- Modal Safeguarding -->
+<ng-template #safeguardingModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modalEditIndividualRequirements">Edit Safeguarding</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <app-safe-gaurding [personData]="personData" [notesData]="notesData"></app-safe-gaurding>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeEditModalAndRefreshData()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Modal Social Worker -->
+<ng-template #socialWorkerModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="openModalEditSocialWorker">Edit Social Worker</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <app-social-worker [personData]="personData" [notesData]="notesData"></app-social-worker>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeEditModalAndRefreshData()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Modal Discharge Plan -->
+<ng-template #dischargePlanModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="openModalEditDischargePlan">Edit Discharge Plan</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <app-discharge-plan-notes [personData]="personData" [notesData]="notesData"></app-discharge-plan-notes>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeEditModalAndRefreshData()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Modal Discharge Plan -->
+<ng-template #dischargePlanModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="openModalEditDischargePlan">Edit Discharge Plan</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <app-discharge-plan-notes [personData]="personData" [notesData]="notesData"></app-discharge-plan-notes>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeEditModalAndRefreshData()">Close</button>
+  </div>
+</ng-template>
+
+
+<!-- Modal EDD -->
+<ng-template #eddModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="openModalEditEDD">Edit Expected Date of Discharge </h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <app-expected-discharge-date [personDetails]="personData" [notesData]="notesData"></app-expected-discharge-date>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeEditModalAndRefreshData()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Modal Clinical Summary -->
+<ng-template #clinicalSummaryModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="openModalEditClinicalSummary">Edit Clinical Summary </h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <app-discharge-clinical-summary-notes [personData]="personData" [notesData]="notesData"></app-discharge-clinical-summary-notes>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeEditModalAndRefreshData()">Close</button>
+  </div>
+</ng-template>
+
+
+<!-- Modal Investigation Results -->
+<ng-template #investigationResultsModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="openModalEditInvestigationResults">Edit Investigation Results </h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-12">
+
+        <app-discharge-investigation-results-notes [personData]="personData" [notesData]="notesData"></app-discharge-investigation-results-notes>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeEditModalAndRefreshData()">Close</button>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+<!-- DS-136 Start (The default view is to show all sections expanded.) -->
+
+<div class="card">
+  <div class="card-body">
+
+    <!-- Person Demographics -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Person Demographics</span>
+      </div>
+      <div class="col-md-6">
+        <a href="javascript:void(0);" (click)="getPASData()" class="btn btn-clear btn-sm pull-right refresh-discharge-summary" data-toggle="popover" title="This data is refreshed from PAS" data-content="This data is refreshed from PAS"><img src="assets/images/dischargesummary/Refresh.svg" height="20px;" alt="Print"></a>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+                          <td class="table-cell-label">
+                              Patient name
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{patientName}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Patient preferred name
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{preferredName}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Date of birth
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{dob}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Gender
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{gender}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              NHS Number
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{nhsNumber}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Other Identifier
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{hospitalNumber}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                            Patient Address
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{address}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Patient email address
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{email}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Patient telephone number
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{personalNumber}}</span>
+                          </td>
+                      </tr>
+
+                  </table>
+
+      </div>
+    </div>
+
+    <!-- GP Practice -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">GP Practice</span>
+      </div>
+      <div class="col-md-6">
+        <a href="javascript:void(0);" (click)="getGPData()" class="btn btn-clear btn-sm pull-right refresh-discharge-summary" data-toggle="popover" title="This data is refreshed from PAS" data-content="This data is refreshed from PAS"><img src="assets/images/dischargesummary/Refresh.svg" height="20px;" alt="Print"></a>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+                          <td class="table-cell-label">
+                              GP Practice
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{gpFacilityName}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              GP Name
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{gpPrefix + ' ' + gpFirstName + ' ' + gpFamilyName}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              GP Practice Details
+                          </td>
+                          <td class="table-cell-content">
+                            {{gpAddressLine1}} <br />
+                            {{gpAddressLine2}} <br />
+                            {{gpAddressLine3}} <br />
+                            {{gpPostCode}}
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              GP Practice Identifier
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{gpCode}}</span>
+                          </td>
+                      </tr>
+                  </table>
+
+      </div>
+    </div>
+
+    <!-- Individual Requirements -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Individual Requirements</span>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="openModalEditIndividualRequiements(individualRequirementsModalContent)" data-toggle="popover" title="This data is from the Discharge Summary" data-content="This data is from the Discharge Summary"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+
+                          <td class="table-cell-content">
+                            <div [innerHTML]="individualRequirements"></div>
+                          </td>
+                      </tr>
+                  </table>
+
+      </div>
+    </div>
+
+
+    <!-- Safeguarding -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Safeguarding</span>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="openModalEditSafeguarding(safeguardingModalContent)" data-toggle="popover" title="This data is from the Discharge Summary" data-content="This data is from the Discharge Summary"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+                          <td class="table-cell-label">
+                              Risks to self
+                          </td>
+                          <td class="table-cell-content">
+                            <div [innerHTML]="risksToSelf"></div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                            Risks to others
+                          </td>
+                          <td class="table-cell-content">
+                            <div [innerHTML]="risksToOthers"></div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Risks from others
+                          </td>
+                          <td class="table-cell-content">
+                            <div [innerHTML]="risksFromOthers"></div>
+                          </td>
+                      </tr>
+                  </table>
+
+      </div>
+    </div>
+
+        <!-- Social Worker -->
+        <div class="row section-header-row">
+          <div class="col-md-6">
+            <span class="h6">Social Worker</span>
+          </div>
+          <div class="col-md-6">
+            <button *ngIf="!isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="openModalEditSocialWorker(socialWorkerModalContent)" data-toggle="popover" title="This data is from the Discharge Summary" data-content="This data is from the Discharge Summary"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+            </button>
+          </div>
+        </div>
+        <div class="row section-content-row">
+          <div class="col-md-12">
+
+                        <table class="table table-bordered table-sm">
+                          <tr>
+                            <td class="table-cell-label">
+                                Social Worker Details
+                            </td>
+                            <td class="table-cell-content">
+                              <div [innerHTML]="socialWorkerDetails"></div>
+                            </td>
+                        </tr>
+                      </table>
+
+          </div>
+        </div>
+
+    <!-- Referer Details -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Referer Details</span>
+      </div>
+      <div class="col-md-6">
+        <a href="javascript:void(0)" (click)="getReferralData()" class="btn btn-clear btn-sm pull-right refresh-discharge-summary" data-toggle="popover" title="This data is refreshed from PAS" data-content="This data is refreshed from PAS"><img src="assets/images/dischargesummary/Refresh.svg" height="20px;" alt="Print"></a>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+                          <td class="table-cell-label">
+                              Referral Type
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{referralType}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Effective Date
+                          </td>
+                          <td class="table-cell-content">
+                            {{effectiveDate | date : 'dd/MM/yyyy'}}
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Processed Date
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{processedDate | date : 'dd/MM/yyyy'}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              UBRN
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{ubrn}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Referral From
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{referralFromName}}</span><br />
+                            <span>{{referralFromAddressLine1}}</span><br />
+                            <span>{{referralFromAddressLine2}}</span><br />
+                            <span>{{referralFromAddressCity}}</span><br />
+                            <span>{{referralFromState}}</span><br />
+                            <span>{{referralFromPostCode}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              National Specialty
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{referralFromSpecialtyNational}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Local Specialty
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{referralFromSpecialtyLocal}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Referral To
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{referralToName}}</span><br />
+                            <span>{{referralToAddressLine1}}</span><br />
+                            <span>{{referralToAddressLine2}}</span><br />
+                            <span>{{referralToAddressCity}}</span><br />
+                            <span>{{referralToState}}</span><br />
+                            <span>{{referralToPostCode}}</span>
+                          </td>
+                      </tr>
+
+                  </table>
+
+      </div>
+    </div>
+
+    <!-- Admission Details -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Admission Details</span>
+      </div>
+      <div class="col-md-6">
+        <a href="javascript:void(0);" (click)="getAdmissionData()" class="btn btn-clear btn-sm pull-right refresh-discharge-summary" data-toggle="popover" title="This data is refreshed from PAS" data-content="This data is refreshed from PAS"><img src="assets/images/dischargesummary/Refresh.svg" height="20px;" alt="Print"></a>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+                          <td class="table-cell-label">
+                              Date of Admission
+                          </td>
+                          <td class="table-cell-content">
+                            {{admitdatetime}}
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Lead Consultant
+                          </td>
+                          <td class="table-cell-content">
+                            <span>{{consultant}}</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="table-cell-label">
+                              Specialty
+                          </td>
+                          <td class="table-cell-content">
+                            {{specialty}}
+                          </td>
+                      </tr>
+                  </table>
+
+      </div>
+    </div>
+
+    <!-- Discharge Details -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Discharge Details</span>
+      </div>
+      <div class="col-md-6">
+        <a *ngIf="isExpectedDateOfDischarge != true" href="javascript:void(0);" (click)="getPASData()" class="btn btn-clear btn-sm pull-right refresh-discharge-summary" data-toggle="popover" title="This data is refreshed from PAS" data-content="This data is refreshed from PAS"><img src="assets/images/dischargesummary/Refresh.svg" height="20px;" alt="Print"></a>
+        <!-- <button *ngIf="isExpectedDateOfDischarge" class="btn btn-clear btn-sm pull-right" (click)="openModalEditEDD(dischargePlanModalContent)" data-toggle="popover" title="This data is from the Discharge Summary" data-content="This data is from the Discharge Summary"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button> -->
+        <button *ngIf="isExpectedDateOfDischarge == true && !isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="openModalEditEDD(dischargePlanModalContent)" data-toggle="popover" title="This data is from the Discharge Summary" data-content="This data is from the Discharge Summary"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+                          <td class="table-cell-label">
+                              Date of Discharge
+                          </td>
+                          <td class="table-cell-content">
+                            <span style="font-weight: bold;" *ngIf="isExpectedDateOfDischarge != true">Date of Discharge </span>
+                            <span style="font-weight: bold;" *ngIf="isExpectedDateOfDischarge">Expected Date of Discharge </span><br />
+                            <span>{{dischargedatetime}}</span>
+                          </td>
+                      </tr>
+                  </table>
+
+      </div>
+    </div>
+
+    <!-- Discharge Plan -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Discharge Plan</span>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="openModalEditDischargePlan(dischargePlanModalContent)" data-toggle="popover" title="This data is from the Discharge Summary" data-content="This data is from the Discharge Summary"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+
+                          <td class="table-cell-content">
+                            <div [innerHTML]="dischargePlanNotes"></div>
+                          </td>
+                      </tr>
+                  </table>
+
+      </div>
+    </div>
+
+    <!-- Problems (Diagnosis) List -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Problems (Diagnosis) List</span>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="resolveModule('clinicalsummary')" data-toggle="popover" title="This data is from the Handover Module" data-content="This data is from the Handover Module"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+
+        <table class="table table-bordered table-sm" *ngIf="diagnosisList?.length > 0">
+              <tr>
+                  <td>
+                      <strong>Code</strong>
+                  </td>
+                  <td>
+                      <strong>Name</strong>
+                  </td>
+                  <td>
+                      <strong>Onset Date</strong>
+                  </td>
+                  <td>
+                      <strong>Clinical Status</strong>
+                  </td>
+                  <td>
+                      <strong>Verification Status</strong>
+                  </td>
+                  <td>
+                      <strong>Resolved Date</strong>
+                  </td>
+              </tr>
+              <tr *ngFor="let diagnosis_list of diagnosisList">
+                  <td>
+                      <span>{{diagnosis_list.code}}</span>
+                  </td>
+                  <td>
+                      <span>{{diagnosis_list.name}}</span>
+                  </td>
+                  <td>
+                      <span>{{diagnosis_list.onsetdate | date :'dd/MM/yyyy'}}</span>
+                  </td>
+                  <td>
+                      <span>{{diagnosis_list.clinicalstatus}}</span>
+                  </td>
+                  <td>
+                      <span>{{diagnosis_list.verificationstatus}}</span>
+                  </td>
+                  <td>
+                      <span>{{diagnosis_list.resolveddate | date :'dd/MM/yyyy'}}</span>
+                  </td>
+              </tr>
+              <!-- <tr *ngIf="diagnosisList?.length == 0">
+                  <td colspan="6">
+                      <span>No Data available</span>
+                  </td>
+              </tr> -->
+          </table>
+
+          <div *ngIf="diagnosisList?.length == 0">
+            <table class="table table-bordered table-sm">
+              <tr>
+                <td>
+                  There have been no diagnosis recorded for this patient
+                </td>
+              </tr>
+            </table>
+          </div>
+
+      </div>
+    </div>
+
+    <!-- Procedures and Therapies -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Procedures and Therapies</span>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="resolveModule('clinicalsummary')" data-toggle="popover" title="This data is from the Handover Module" data-content="This data is from the Handover Module"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+
+        <table class="table table-bordered table-sm">
+          <tr>
+              <td>
+                  <strong>Code</strong>
+              </td>
+              <td>
+                  <strong>Name</strong>
+              </td>
+              <td>
+                  <strong>Procedure Date</strong>
+              </td>
+              <td>
+                  <strong>Status</strong>
+              </td>
+              <td>
+                  <strong>Performed by</strong>
+              </td>
+          </tr>
+          <tr *ngFor="let procedure_list of procedureList">
+              <td>
+                  <span>{{procedure_list.code}}</span>
+              </td>
+              <td>
+                  <span>{{procedure_list.name}}</span>
+              </td>
+              <td>
+                  <span>{{procedure_list.proceduredate | date :'dd/MM/yyyy'}}</span>
+              </td>
+              <td>
+                  <span>{{procedure_list.status?procedure_list.status:'UNKNOWN'}}</span>
+              </td>
+              <td>
+                  <span>{{procedure_list.performedby}}</span>
+              </td>
+          </tr>
+          <!-- <tr *ngIf="procedureList?.length == 0">
+              <td colspan="5">
+                  <span>No Data available</span>
+              </td>
+          </tr> -->
+      </table>
+
+          <div *ngIf="procedureList?.length == 0">
+
+            <table class="table table-bordered table-sm">
+              <tr>
+                <td>
+                  There have been no procedures recorded for this patient for this encounter
+                </td>
+              </tr>
+            </table>
+          </div>
+
+      </div>
+    </div>
+
+    <!-- Clinical Summmary -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Clinical Summary</span>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="openModalEditClinicalSummary(individualRequirementsModalContent)" data-toggle="popover" title="This data is from the Discharge Summary" data-content="This data is from the Discharge Summary"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+
+                          <td class="table-cell-content">
+                            <div [innerHTML]="clinicalSummaryNotes"></div>
+                          </td>
+                      </tr>
+                  </table>
+
+      </div>
+    </div>
+
+    <!-- Investigation Results -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Investigation Results</span>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="openModalEditInvestigationResults(individualRequirementsModalContent)" data-toggle="popover" title="This data is from the Discharge Summary" data-content="This data is from the Discharge Summary"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+
+                          <td class="table-cell-content">
+                            <div [innerHTML]="investigationResultNotes"></div>
+                          </td>
+                      </tr>
+                  </table>
+
+      </div>
+    </div>
+
+
+    <!-- Allergies -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Allergies</span>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!isPatientDischarged" class="btn btn-clear btn-sm pull-right" (click)="resolveModule('allergies')" data-toggle="popover" title="This data is from the Handover Module" data-content="This data is from the Handover Module"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+        <table class="table table-bordered table-sm" *ngIf="allergyIntoleranceList?.length > 0">
+          <tr>
+              <td>
+                  <strong>Allergen</strong>
+              </td>
+              <td>
+                  <strong>Criticality</strong>
+              </td>
+              <td>
+                  <strong>Category</strong>
+              </td>
+              <td>
+                  <strong>Reaction</strong>
+              </td>
+              <td>
+                  <strong>Status</strong>
+              </td>
+          </tr>
+          <tr *ngFor="let allergy_list of allergyIntoleranceList">
+              <td>
+                  <span>{{allergy_list.causativeagentdescription}}</span>
+              </td>
+              <td>
+                  <span>{{allergy_list.criticality}}</span>
+              </td>
+              <td>
+                  <span>{{allergy_list.category}}</span>
+              </td>
+              <td>
+                  <div *ngIf="allergy_list?.reactionconcepts?.length > 0">
+                      <div *ngFor="let reaction of allergy_list?.reactionconcepts">
+                          <span>
+                          {{(reaction.term)?reaction.term:reaction._term}}
+                          </span>
+                      </div>
+                  </div>
+              </td>
+              <td>
+                  <span>{{allergy_list.clinicalstatusvalue}}</span>
+              </td>
+          </tr>
+          <!-- <tr *ngIf="allergyIntoleranceList?.length == 0">
+              <td colspan="5">
+                  <span>No Data available</span>
+              </td>
+          </tr> -->
+      </table>
+
+
+          <div *ngIf="allergyIntoleranceList?.length == 0">
+            <table class="table table-bordered table-sm">
+              <tr>
+                <td>
+                  There have been no allergies recorded for this patient
+                </td>
+              </tr>
+            </table>
+          </div>
+
+      </div>
+    </div>
+
+
+    <!-- Medications and Devices -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Medications and Devices</span>
+      </div>
+      <div class="col-md-6">
+        <a href="javascript:void(0);" class="btn btn-white pull-right" (click)="print();"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print"></a>
+        <span class="btn btn-clear btn-sm pull-right" data-toggle="popover" title="This data is from the EPMA Module - Please return to EPMA to make any changes" data-content="This data is from the EPMA Module - Please return to EPMA to make any changes"><img src="assets/images/dischargesummary/Info.svg" height="20px;" alt="Print">
+        </span>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+
+        <table class="table table-bordered table-sm" *ngIf="dischargesummaryprescription?.length > 0">
+          <thead>
+              <tr>
+                  <th>
+                      Drug Details
+                  </th>
+                  <th>
+
+                  </th>
+                  <th>
+                      POD
+                  </th>
+                  <th>
+                      Supply on Discharge
+                  </th>
+                  <th>
+                      Quantity supplied
+                  </th>
+                  <th>
+                      Dispensed by
+                  </th>
+                  <th>
+                      Checked by
+                  </th>
+                  <th>
+                    GP to continue
+                  </th>
+              </tr>
+          </thead>
+          <tbody *ngFor="let dsp of dischargesummaryprescription;">
+              <tr>
+                  <th colspan="8" class="bg-light">
+                      {{dsp.category}}
+                  </th>
+              </tr>
+              <tr *ngFor="let medsSum of dsp.medicationssummaries; let i= index;">
+                  <td>
+                    <strong>{{medsSum.name}}</strong> <br />
+                    <div *ngIf="medsSum.iscontrolleddrug"><strong class="text-danger">* Controlled Drug</strong><br /></div>       
+                    DOSE: {{medsSum.dose}} <br />
+                    ROUTE: {{medsSum.route}} <br />
+                    {{medsSum.quantity}} <br />
+                    <div style="font-size: 0.8em; text-decoration: italic;" *ngIf="medsSum.status != null">
+                        REASON FOR STATUS: {{medsSum.status}}
+                        <br />
+                    </div>
+                    COMMENTS: {{medsSum.comments}}
+                  </td>
+                  <td>
+                    <div *ngIf="medsSum.iscontrolleddrug">
+                      <a href="javascript:void(0);" class="btn btn-white" data-bs-toggle="modal" (click)="print(true, medsSum.dischargesummaryprescription_id);"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print">  </a>
+                    </div>
+                  </td>
+                  <td>
+                      <!-- <textarea [name]="dsp.category + 'pod' + i + medsSum.name.split(' ').join('')" [(ngModel)]="medsSum.pod" rows="7"></textarea> -->
+                  </td>
+                  <td>
+                      <!-- <textarea [name]="dsp.category + 'sod' + i + medsSum.name.split(' ').join('')" [(ngModel)]="medsSum.supplyondischarge" rows="7"></textarea> -->
+                  </td>
+                  <td>
+                      <!-- <textarea [name]="dsp.category + 'qs' + i + medsSum.name.split(' ').join('')" [(ngModel)]="medsSum.quantitysupplied" rows="7"></textarea> -->
+                  </td>
+                  <td>
+                      <!-- <textarea [name]="dsp.category + 'db' + i + medsSum.name.split(' ').join('')" [(ngModel)]="medsSum.dispensedby" rows="7"></textarea> -->
+                  </td>
+                  <td>
+                      <!-- <textarea [name]="dsp.category + 'cb' + i + medsSum.name.split(' ').join('')" [(ngModel)]="medsSum.checkedby" rows="7"></textarea> -->
+                  </td>
+                  <th>
+                      <!-- <textarea [name]="dsp.category + 'gtc' + i + medsSum.name.split(' ').join('')" [(ngModel)]="medsSum.gptocontinue" rows="7"></textarea> -->
+                  </th>
+              </tr>
+          </tbody>
+      </table>
+
+          <div *ngIf="dischargesummaryprescription?.length == 0">
+            <table class="table table-bordered table-sm">
+              <tr>
+                <td>
+                  There have been no discharge medications added for this patient
+                </td>
+              </tr>
+            </table>
+          </div>
+
+      </div>
+    </div>
+
+    <!-- Pharmacy Notes -->
+    <!-- (click)="editView()"  -->
+    <div class="row section-header-row">
+      <div class="col-md-6">
+        <span class="h6">Pharmacy Notes</span>
+      </div>
+      <div class="col-md-6">
+        <button *ngIf="!dischargeSummaryCompleted && !isPatientDischarged" class="btn btn-clear btn-sm pull-right"
+        (click)="openModalEditPharmacyNotes(pharmacyModalContent)"
+        data-toggle="popover" title="This data is from the Discharge Summary" data-content="This data is from the Discharge Summary"><img src="assets/images/dischargesummary/Edit.svg" height="20px;" alt="Print">
+        </button>
+      </div>
+    </div>
+    <div class="row section-content-row">
+      <div class="col-md-12">
+
+
+        <!-- <app-pharmacy-notes [notesData]="notesData"></app-pharmacy-notes> -->
+
+
+                    <table class="table table-bordered table-sm">
+                      <tr>
+
+                          <td class="table-cell-content">
+                            <div [innerHTML]="pharmacyNotes"></div>
+
+                            <br />
+                          </td>
+                      </tr>
+                  </table>
+
+      </div>
+    </div>
+
+        <!-- Persons Completing -->
+        <div class="row section-header-row">
+          <div class="col-md-6">
+            <span class="h6">Persons Completing</span>
+          </div>
+          <div class="col-md-6">
+            <span style="line-height: 30px;">&nbsp;</span>
+          </div>
+        </div>
+        <div class="row section-content-row">
+          <div class="col-md-12">
+
+            <table class="table table-bordered table-sm">
+              <tr>
+                  <td class="table-cell-label">
+                      Clinician
+                  </td>
+                  <td class="table-cell-content">
+                      <span>{{clinicianDeclarationCompleteBy}} - {{clinicianDeclarationCompleteDate | date:'dd/MM/yyyy HH:mm'}}</span>
+                  </td>
+              </tr>
+              <tr>
+                <td class="table-cell-label">
+                     Pharmacy
+                  </td>
+                  <td class="table-cell-content">
+                      <span>{{pharmacyDeclarationCompleteBy}} - {{pharmacyDeclarationCompleteDate | date:'dd/MM/yyyy HH:mm'}}</span>
+                  </td>
+              </tr>
+              <tr>
+                <td class="table-cell-label">
+                      Ward Discharge
+                  </td>
+                  <td class="table-cell-content">
+                      <span>{{dischargeDeclarationCompleteBy}} - {{dischargeDeclarationCompleteDate | date:'dd/MM/yyyy HH:mm'}}</span>
+                  </td>
+              </tr>
+          </table>
+
+          </div>
+        </div>
+
+  </div>
+
+</div>
+<!-- DS-136 End -->

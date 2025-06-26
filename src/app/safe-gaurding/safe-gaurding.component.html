@@ -1,0 +1,155 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div id="divSafeguarding" [ngClass]="showErrorMessage1 || showErrorMessage2 || showErrorMessage3 ? 'alert alert-light border border-danger rounded' : ''">
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <h5><span [ngClass]="showErrorMessage1 || showErrorMessage2 || showErrorMessage3 ? 'text-danger' : ''">Safeguarding</span></h5>
+        </div>
+        <div class="col-md-4" style="text-align: right;">
+
+            <a  *ngIf="!isDisabled" href="javascript:void(0);" class="btn btn-white" (click)="openEditSafeGuardingDialog()">
+                <img src="assets/images/dischargesummary/editIcon.svg" height="30px" style="float:right;margin-right:8px">
+            </a>
+            <!-- <a href="javascript:void(0);" class="btn btn-white" (click)="viewHistory('')"><img src="assets/images/dischargesummary/History.png" height="30px;" alt="View field history">  </a> -->
+
+        </div>
+    </div>
+
+    <div class="card" >
+        <div class="card-body">
+         <div class="row">
+             <div class="col-md-10">
+                <strong>Are there any safeguarding concerns about this patient?</strong>
+                <br />
+             This includes:
+             <ul>
+                 <li>Risks to self</li>
+                 <li>Risks to others</li>
+                 <li>Risks from others</li>
+             </ul>
+             </div>
+             <div class="col-md-2" style="text-align: right;">
+                <div>
+                    <ng-toggle [disabled]="true" onColor="secondary" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light" [(ngModel)]="hassafeguardingconcerns" (valueChange)="showEditorControl()"></ng-toggle>
+                </div>
+                 <!-- <div class="checkbox">
+                     <input id="chkSafegaurding" type="checkbox" checked data-toggle="toggle" data-onstyle="secondary" data-on="Yes" data-off="No" data-style="android">
+                   </div> -->
+
+             </div>
+         </div>
+
+         <div id="divSafeguardingNotes" *ngIf="hassafeguardingconcerns">
+
+            <br />
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h6><span class="text-danger" *ngIf="importFromSafeGuarding">*</span>Risk to self</h6>
+                </div>
+                <div class="col-md-4" style="text-align: right;">
+
+                    <a href="javascript:void(0);" class="btn btn-white" (click)="viewHistory('RiskToSelf')"><img src="assets/images/dischargesummary/History.png" height="20px;" alt="View field history">  </a>
+
+                </div>
+            </div>
+
+            <ckeditor style="display: none;" id="ds-classic-editor" *ngIf="safeGaurdingData && !isDisabled" [editor]="Editor" [(ngModel)]="safegaurdingrisktoself" [disabled]="isPatientDischarged"></ckeditor>
+            <div *ngIf="!isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="safegaurdingrisktoself" (click)="openEditSafeGuardingDialog()"></div>
+            <div *ngIf="isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="safegaurdingrisktoself" ></div>
+
+            <div [hidden]="!showErrorMessage1" class="text-danger">
+                <i>Risk To Self is required</i>
+            </div>
+            <div *ngIf="!showRiskToSelfButtons" style="font-size: 0.8em;font-style: italic;text-align: right;" class="text-secondary">
+                {{risktoselfcreatedby}}
+                {{risktoselftimestamp | date : 'dd-MM-yyyy HH:mm'}}
+              </div>
+            <!-- <div class="container" *ngIf="showRiskToSelfButtons" style="font-size: 0.8em;padding-top: 10px;">
+                <button type="button" class="btn btn-light" style="float: left;" (click)="dismiss('1')">Cancel</button>&nbsp;
+                <button type="button" class="btn btn-info text-white" style="float: right;" (click)="saveRiskToSelf()">Save</button>
+            </div> -->
+
+            <br />
+            <div class="row">
+                <div class="col-md-8">
+                    <h6><span class="text-danger" *ngIf="importFromSafeGuarding">*</span>Risk to others</h6>
+                </div>
+                <div class="col-md-4" style="text-align: right;">
+
+                    <a href="javascript:void(0);" class="btn btn-white" (click)="viewHistory('RiskToOthers')"><img src="assets/images/dischargesummary/History.png" height="20px;" alt="View field history">  </a>
+
+                </div>
+            </div>
+
+            <ckeditor style="display: none;" id="ds-classic-editor" *ngIf="safeGaurdingData && !isDisabled" [editor]="Editor" [(ngModel)]="safegaurdingrisktoothers" [disabled]="isPatientDischarged"></ckeditor>
+            <div *ngIf="!isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="safegaurdingrisktoothers" (click)="openEditSafeGuardingDialog()"></div>
+            <div *ngIf="isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="safegaurdingrisktoothers" ></div>
+
+            <div [hidden]="!showErrorMessage2" class="text-danger">
+                <i>Risk To Others is required</i>
+            </div>
+            <div *ngIf="!showRiskToOthersButtons" style="font-size: 0.8em;font-style: italic;text-align: right;" class="text-secondary">
+                {{risktootherscreatedby}}
+                {{risktootherstimestamp | date : 'dd-MM-yyyy HH:mm'}}
+              </div>
+            <!-- <div class="container" *ngIf="showRiskToOthersButtons" style="font-size: 0.8em;padding-top: 10px;">
+                <button type="button" class="btn btn-light" style="float: left;" (click)="dismiss('2')">Cancel</button>&nbsp;
+                <button type="button" class="btn btn-info text-white" style="float: right;" (click)="saveRiskToOthers()">Save</button>
+            </div> -->
+
+            <br />
+            <div class="row">
+                <div class="col-md-8">
+                    <h6><span class="text-danger" *ngIf="importFromSafeGuarding">*</span>Risk from others</h6>
+                </div>
+                <div class="col-md-4" style="text-align: right;">
+
+                    <a href="javascript:void(0);" class="btn btn-white" (click)="viewHistory('RiskFromOthers')"><img src="assets/images/dischargesummary/History.png" height="20px;" alt="View field history">  </a>
+
+                </div>
+            </div>
+
+            <ckeditor style="display: none;" id="ds-classic-editor"  *ngIf="safeGaurdingData && !isDisabled" [editor]="Editor" [(ngModel)]="safegaurdingriskfromothers" [disabled]="isPatientDischarged"></ckeditor>
+            <div *ngIf="!isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="safegaurdingriskfromothers" (click)="openEditSafeGuardingDialog()"></div>
+            <div *ngIf="isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="safegaurdingriskfromothers" ></div>
+
+            <div [hidden]="!showErrorMessage3" class="text-danger">
+                <i>Risk From Others is required</i>
+            </div>
+            <div *ngIf="!showRiskFromOthersButtons" style="font-size: 0.8em;font-style: italic;text-align: right;" class="text-secondary">
+                {{riskfromotherscreatedby}}
+                {{riskfromotherstimestamp | date : 'dd-MM-yyyy HH:mm'}}
+              </div>
+            <!-- <div class="container" *ngIf="showRiskFromOthersButtons" style="font-size: 0.8em;padding-top: 10px;">
+                <button type="button" class="btn btn-light" style="float: left;" (click)="dismiss('3')">Cancel</button>&nbsp;
+                <button type="button" class="btn btn-info text-white" style="float: right;" (click)="saveRiskFromOthers()">Save</button>
+            </div>   -->
+
+        </div>
+
+
+        </div>
+     </div>
+
+</div>

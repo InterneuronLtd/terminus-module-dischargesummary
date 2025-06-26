@@ -1,0 +1,134 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="modal-header">
+    <div class="col-10" style="padding-left: 12px;">
+      <h5 class="modal-title">
+        <!-- <fa name="check-square"></fa> -->
+        Individual Requirements
+        <!-- - {{ title }} -->
+      </h5>
+    </div>
+      
+    
+      <div class="col-1" style="text-align: right; padding-top: 2px;">
+        <img src="assets/images/dischargesummary/History.png" height="18px"
+          (click)="viewHistory()">
+      </div>
+      <div class="col-1" style="text-align: right; margin-top: 3px;">
+        <!-- <button class="btn btn-sm btn-default text-white"> -->
+          <!-- <span aria-hidden="true">&times;</span> -->
+          <img *ngIf="!showDischargeSummaryMessage" src="assets/images/dischargesummary/closeIcon.svg" height="18px" (click)="dismiss()">
+          <img *ngIf="showDischargeSummaryMessage" src="assets/images/dischargesummary/closeIcon.svg" height="18px" (click)="reloadPage()">
+        <!-- </button> -->
+      </div>
+      
+    </div>
+    <div class="modal-body" *ngIf="!showDischargeSummaryMessage">
+      <span class="text-dark">
+  
+      <div>
+        <div>
+          <h6><span class="text-danger">*</span><span [ngClass]="showErrorMessage ? 'text-danger' : ''">Individual Requirements</span></h6>
+        </div>
+        <div class="card">
+            <div class="card-body">
+             <div class="row">
+                 <div class="col-md-10">
+                    <strong>Patient has special individual requirements?</strong>
+                    <br />
+                This includes:
+                 <ul>
+                     <li>Transport</li>
+                     <li>Accommodation</li>
+                     <li>Language and communication</li>
+                     <li>Professional Support</li>
+                     <li>Social Support</li>
+                     <li>Assistive Devices</li>
+                 </ul>
+                 </div>
+                 <div class="col-md-2" style="text-align: right;">
+                    <div>
+                        <ng-toggle onColor="secondary" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light" [checked]="patienthasindividualrequirements" [(ngModel)]="patienthasindividualrequirements"></ng-toggle>
+                    </div>
+                     <!-- <div class="checkbox">
+                         <input id="chkIndividualRequirements" type="checkbox" checked data-toggle="toggle" data-onstyle="secondary" data-on="Yes" data-off="No" data-style="android">
+                       </div> -->
+    
+                 </div>
+             </div>
+    
+    
+             <div id="divIndidualRequirementsNotes" *ngIf="patienthasindividualrequirements">
+    
+                <div class="row">
+                    <div class="col-md-8">
+                        <h6><span class="text-danger">*</span>Individual Requirements</h6>
+                    </div>
+                    <div class="col-md-4" style="text-align: right;">
+    
+                        <!-- <a href="javascript:void(0);" class="btn btn-white" (click)="viewHistory()"><img src="assets/images/dischargesummary/History.png" height="20px;" alt="View field history">  </a> -->
+                        
+                    </div>
+                </div>
+    
+                <ckeditor id="ds-classic-editor" *ngIf="individualRequirementsData && !isDisabled" [editor]="Editor" [(ngModel)]="individualrequirements" [disabled]="isPatientDischarged"></ckeditor>
+                
+            </div>
+    
+    
+            </div>
+         </div>
+    
+        </div>
+
+        <div [hidden]="!showDischargeSummaryMessage" class="text-danger">
+          <i>Discharge summary is already completed by the {{dischargeSummaryCompletedBy}} and the system is unable to update the data</i>
+      </div>
+      </span>
+    </div>
+    <div class="modal-body" *ngIf="showDischargeSummaryMessage">
+      <span class="text-dark">
+  
+      <div>
+          <div class=""  style="font-size:0.8em; margin-top:5px; margin-left: 5px;">
+            <strong><i class="fa fa-info-circle"></i> Discharge summary is already completed by the {{dischargeSummaryCompletedBy}} and the system is unable to update the data</strong>
+            <!-- <br />
+            <button class="btn btn-secondary btn-sm edit-vte" data-bs-toggle="modal" data-bs-target="#vteModal"><i class="fa-solid fa-pencil"></i> Open Assessments Module</button> -->
+          </div>
+        </div>
+       
+      </span>
+    </div>
+    <div class="modal-footer">
+      <div class="container">
+          <button *ngIf="!showDischargeSummaryMessage" type="button" class="btn btn-light" style="float: left;" (click)="dismiss()">Cancel</button>&nbsp;
+          <button *ngIf="!showDischargeSummaryMessage" type="button" class="btn btn-info text-white" style="float: right;" (click)="saveIndividualRequirements()"
+          >Save</button>
+          <button *ngIf="showDischargeSummaryMessage" type="button" class="btn btn-info text-white" style="float: right;" (click)="reloadPage()"
+          >Ok</button>
+      </div>
+    </div>
+    
+    <ngx-spinner name="form-history-spinner" bdColor="rgba(0, 0, 0, 0.8)" [fullScreen]="false" type="ball-spin-clockwise"
+      size="medium">
+      <p style="color: white"> Loading ... </p>
+    </ngx-spinner>
+    

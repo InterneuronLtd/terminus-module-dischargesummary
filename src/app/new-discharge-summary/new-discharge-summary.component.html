@@ -1,0 +1,161 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <a class="text-secondary float-left" style="padding-right:5px;" data-toggle="tooltip" data-placement="top" title="Back to discharge summaries list" (click)="listView()"> <i class="fa fa-arrow-left"></i> </a>
+            <h5 class="text-secondary">New Discharge Summary</h5>
+        </div>
+        <div class="col-md-4" style="text-align: right; font-size: 1.2em;">
+            <!-- <a class="text-secondary" style="padding-right:5px;" data-toggle="tooltip" data-placement="top" title="Back to discharge summaries list" (click)="listView()"> <i class="fa fa-list"></i> </a> -->
+        </div>
+    </div>
+    <app-discharge-summary-banner [personDetails]="personDetails"></app-discharge-summary-banner>
+    <br />
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <strong> Would you like to import data from the Handover Module?</strong>
+                    <br />
+                    If you select this option then the system will import the following items from Handover to
+                    help get you started:
+                    <ul>
+                        <li>Clinical Summary Notes</li>
+                        <li>Investigation Results</li>
+                        <li>Discharge Plan</li>
+                    </ul>
+                </div>
+                <div class="col-md-2" style="text-align: right;">
+                    <div>
+                        <ng-toggle onColor="secondary" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light" [(ngModel)]="importFromClinicalSummary"></ng-toggle>
+                    </div>
+                    <!-- <div class="checkbox">
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="secondary" data-on="Yes" data-off="No" data-style="android" [(ngModel)]="importFromClinicalSummary" />
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <strong> Would you like to import data from the openEPMA Discharge Module?</strong>
+                    <br />
+                    This will import the discharge prescriptions along with the pharmacy notes from the openEPMA module
+                    into the 'Medications and Medical Devices' section.
+                </div>
+                <div class="col-md-2" style="text-align: right;">
+                    <div>
+                        <ng-toggle onColor="secondary" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light" [(ngModel)]="importFromEPMA"></ng-toggle>
+                    </div>
+                    <!-- <div class="checkbox">
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="secondary" data-on="Yes" data-off="No" data-style="android" [(ngModel)]="importFromEPMA" />
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <strong> Does the patient have any special individual requirements?</strong>
+                    <br />
+                    This includes:
+                    <ul>
+                        <li>Transport</li>
+                        <li>Accommodation</li>
+                        <li>Language and communication</li>
+                        <li>Professional Support</li>
+                        <li>Social Support</li>
+                        <li>Assistive Devices</li>
+                    </ul>
+                    <br />
+                </div>
+                <div class="col-md-2" style="text-align: right;">
+                    <div>
+                        <ng-toggle onColor="secondary" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light" [(ngModel)]="patientHasIndividualRequirements"></ng-toggle>
+                    </div>
+                    <!-- <div class="checkbox">
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="secondary" data-on="Yes" data-off="No" data-style="android" [(ngModel)]="patientHasIndividualRequirements" />
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <strong>Do you have any safeguarding concerns about this patient?</strong>
+                    <br />
+                    This includes:
+                    <ul>
+                        <li>Risks to self</li>
+                        <li>Risks to others</li>
+                        <li>Risks from others</li>
+                    </ul>
+                </div>
+                <div class="col-md-2" style="text-align: right;">
+                    <div>
+                        <ng-toggle onColor="secondary" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light" [(ngModel)]="hasSafeGuardingConcerns"></ng-toggle>
+                    </div>
+                    <!-- <div class="checkbox">
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="secondary" data-on="Yes" data-off="No" data-style="android" [(ngModel)]="hasSafeGuardingConcerns" />
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <strong>Is there an allocated social worker?</strong>
+                </div>
+                <div class="col-md-2" style="text-align: right;">
+                    <div>
+                        <ng-toggle onColor="secondary" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light" [(ngModel)]="isThereAllocatedSocialWorker"></ng-toggle>
+                    </div>
+                    <!-- <div class="checkbox">
+                        <input type="checkbox" data-toggle="toggle" data-onstyle="secondary" data-on="Yes" data-off="No" data-style="android" [(ngModel)]="isThereAllocatedSocialWorker" />
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-light btn-sm" (click)="listView()">Cancel</a>
+        </div>
+        <div class="col-md-6" style="text-align: right;">
+            <a class="btn btn-secondary" (click)="createDischargeSummary()">Create Discharge Summary</a>
+        </div>
+    </div>
+</div>

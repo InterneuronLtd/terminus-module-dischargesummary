@@ -1,0 +1,44 @@
+.labelHeading {
+    margin-left: 2%;
+    margin-top: 5px;
+    /* color: black !important; */
+    /* font-size: medium; */
+}
+
+.subLabelHeading {
+    margin-top: 2%;
+}
+
+.border-right-bottom {
+    border-bottom: 1px solid black !important;
+    border-right: 1px solid black !important;
+}
+
+.border-bottom {
+    border-bottom: 1px solid black !important;
+}
+
+.border-right {
+    border-right: 1px solid black !important;
+}
+
+.border-left {
+    border-left: 1px solid black !important;
+}
+
+
+.border-table {
+    border:1px solid black !important
+}
+
+::ng-deep #ulStyle > ul > li {
+    margin-left: -35px !important;
+    padding: 5px !important;
+    position: relative;
+}
+
+::ng-deep #ulStyle > ol > li {
+    margin-left: -35px !important;
+    padding: 10px !important;
+    position: relative;
+}

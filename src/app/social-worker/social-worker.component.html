@@ -1,0 +1,92 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div id="divallocatedsocialworkerdetails" [ngClass]="showErrorMessage ? 'alert alert-light border border-danger rounded' : ''">
+    <div class="row">
+        <div class="col-md-8">
+          <h5><span [ngClass]="showErrorMessage ? 'text-danger' : ''">Social Worker</span></h5>
+        </div>
+        <div class="col-md-4" style="text-align: right;">
+
+            <a *ngIf="!isDisabled" href="javascript:void(0);" class="btn btn-white" (click)="openEditSocialWorkerDialog()">
+                <img src="assets/images/dischargesummary/editIcon.svg" height="30px" style="float:right;margin-right:8px">
+            </a>
+
+            <!-- <a href="javascript:void(0);" class="btn btn-white" (click)="viewHistory()"><img src="assets/images/dischargesummary/History.png" height="30px;" alt="View field history">  </a> -->
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+         <div class="row">
+             <div class="col-md-10">
+                <strong>Is there an allocated social worker?</strong>
+                <br />
+             </div>
+             <div class="col-md-2" style="text-align: right;">
+                <div>
+                    <ng-toggle [disabled]="true" onColor="secondary" onText="Yes" handleOnColor="secondary" offColor="light" offText="No" handleOffColor="light" [checked]="isthereallocatedsocialworker" [(ngModel)]="isthereallocatedsocialworker" (valueChange)="showEditorControl()"></ng-toggle>
+                </div>
+                 <!-- <div class="checkbox">
+                     <input id="chkallocatedsocialworkerdetails" type="checkbox" checked data-toggle="toggle" data-onstyle="secondary" data-on="Yes" data-off="No" data-style="android">
+                   </div> -->
+
+             </div>
+         </div>
+
+
+         <div id="divSafeguardingNotes" *ngIf="isthereallocatedsocialworker">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h6><span class="text-danger" *ngIf="importFromSocialWorker">*</span>Details</h6>
+                </div>
+                <div class="col-md-4" style="text-align: right;">
+
+                    <a href="javascript:void(0);" class="btn btn-white" (click)="viewHistory()"><img src="assets/images/dischargesummary/History.png" height="20px;" alt="View field history">  </a>
+
+                </div>
+            </div>
+
+            <ckeditor style="display: none;" id="ds-classic-editor" *ngIf="socialWorkerData && !isDisabled" [editor]="Editor" [(ngModel)]="allocatedsocialworkerdetails" [disabled]="isPatientDischarged"></ckeditor>
+            <div *ngIf="!isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="allocatedsocialworkerdetails" (click)="openEditSocialWorkerDialog()"></div>
+            <div *ngIf="isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="allocatedsocialworkerdetails" ></div>
+
+            <div [hidden]="!showErrorMessage" class="text-danger">
+                <i>Social Worker Details is required</i>
+            </div>
+            <div *ngIf="!showCancelSaveButtons" style="font-size: 0.8em;font-style: italic;text-align: right;" class="text-secondary">
+                {{socialworkercreatedby}}
+                {{socialworkertimestamp | date : 'dd-MM-yyy HH:mm'}}
+            </div>
+            <!-- <div class="container" *ngIf="showCancelSaveButtons" style="font-size: 0.8em;padding-top: 10px;">
+                <button type="button" class="btn btn-light" style="float: left;" (click)="dismiss()">Cancel</button>&nbsp;
+                <button type="button" class="btn btn-info text-white" style="float: right;" (click)="saveSocialWorker()">Save</button>
+            </div> -->
+        </div>
+
+
+        </div>
+     </div>
+
+     <br />
+
+</div>

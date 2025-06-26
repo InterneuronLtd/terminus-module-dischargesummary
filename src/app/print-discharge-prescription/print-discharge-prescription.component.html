@@ -1,0 +1,351 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<ng-template #dischargeSummaryPrescription>
+    <div class="row" style="padding-bottom: 10px; margin-bottom: 5px;">
+        <div class="col-md-7" style="vertical-align: bottom !important; ">
+            <!-- <h6 class="text-secondary" style="color: black !important;">Discharge Summary</h6> -->
+        </div>
+        <div class="col-md-5" style="text-align: right; font-size: 1.0em;">
+            <!-- <img src="assets/images/epma/rnohlogo.png" alt="RNOH Logo" style="height:50px;"> -->
+            <strong>Royal&nbsp;National&nbsp;Orthopaedic&nbsp;Hospital</strong><br />
+            <strong>Brockley Hill</strong><br />
+            <strong>Stanmore</strong><br />
+            <strong>Middlesex HA7 4LP</strong><br />
+            <strong>Tel: 020 8954 2300</strong><br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="border border-dark text-center">
+                <strong>Royal&nbsp;National&nbsp;Orthopaedic&nbsp;Hospital&nbsp;Prescription</strong>
+            </div>
+            <div class="border border-dark text-center">
+                Complete&nbsp;this&nbsp;document&nbsp;in&nbsp;full - omission&nbsp;will&nbsp;delay&nbsp;dispensing&nbsp;and&nbsp;/&nbsp;or&nbsp;discharge
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" style="margin-left: 0; margin-right: 0;">
+        <div class="col-md-3 border border-dark">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <strong>Patient&nbsp;name</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{familyname | uppercase}},&nbsp;{{firstname}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Hospital&nbsp;Number</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{hospitalNumber}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>NHS&nbsp;Number</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{nhsNumber}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Ward</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{wardDisplay}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-2 border border-dark">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <strong>Gender</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{gender}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>DOB</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{dob}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Age</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{age}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    
+        <div class="col-md-2 border border-dark">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <strong>Address</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{address}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="col-md-5 border border-dark">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <strong>Lead&nbsp;Consultant</strong>
+                    </td>
+                    <td>
+                        {{leadConsultant}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Specialty</strong>
+                    </td>
+                    <td>
+                        <span *ngIf="specialty != undefined">{{specialty}}</span>
+                        <span *ngIf="specialty == undefined || specialty == null || specialty == ''">-</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Encounter&nbsp;Status</strong>
+                    </td>
+                    <td>
+                        <span *ngIf="dischargeDatetime != null && isexpecteddateofdischarge != true">Discharged</span>
+                        <span *ngIf="dischargeDatetime == null || isexpecteddateofdischarge == true">Currently&nbsp;Admitted</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Admit&nbsp;Date</strong>
+                    </td>
+                    <td>
+                        {{admitDatetime}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Discharge&nbsp;Date</strong>
+                    </td>
+                    <td>
+                        <span *ngIf="dischargeDatetime != null && isexpecteddateofdischarge != true">{{dischargeDatetime}}</span>
+                        <span *ngIf="dischargeDatetime == null || isexpecteddateofdischarge == true">N/A</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <strong class="text-danger">{{nhsPatient}}</strong>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="row" style="margin-left: 0; margin-right: 0;">
+        <div class="col-md-8 border border-dark">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <strong>Allergies</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 100%;">
+                        <table style="width: 100%;">
+                            <tr *ngFor="let allergy_list of allergyIntoleranceList">
+                                <td style="width: 33.33%;">
+                                    {{allergy_list.causativeagentdescription}}
+                                </td>
+                                <td style="width: 33.33%;">
+                                    {{allergy_list.criticality}}
+                                </td>
+                                <td style="width: 33.33%;">
+                                    {{allergy_list.clinicalstatusvalue}}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4 border border-dark">
+            <table style="width: 100%;">
+                <tr>
+                    <td colspan="2">
+                        <strong>Patient&nbsp;weight</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{obsDate | date : 'dd/MM/yyyy'}}
+                    </td>
+                    <td>
+                        {{obsValue}} <span *ngIf="obsValue != undefined">kg</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <table id="tblPrecription" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Drug&nbsp;Details
+                        </th>
+                        <th>
+                            Disp
+                        </th>
+                        <th>
+                            Check
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let dsp of dischargesummaryprescription;">
+                    <tr *ngFor="let medsSum of dsp.medicationssummaries;">
+                        <td>
+                            <strong>{{medsSum.name}}</strong> <br />
+                            <div *ngIf="medsSum.iscontrolleddrug"><strong class="text-danger">*&nbsp;Controlled&nbsp;Drug</strong><br /></div>       
+                            <span *ngIf="medsSum.protocoldose?.length == 0">DOSE: {{medsSum.dose}}</span>
+                            <span *ngIf="medsSum.protocoldose?.length > 0">
+                                DOSE:
+                                <!-- <span *ngFor="let protocolDose of medsSum.protocoldose">
+                                    {{ protocolDose.isShowDate == true ? (protocolDose.date | date : 'dd-MM-yyyy HH:mm') : (protocolDose.date | date : 'HH:mm')}} - {{protocolDose.text}}<br />
+                                </span> -->
+                                <span *ngFor="let protocolDose of medsSum.protocoldose; let i = index" >
+                                    <span *ngIf="protocolDose.isShowDate == true" [ngStyle]="{'margin-left': i > 0 ?'45px':''}">
+                                        {{(protocolDose.date | date : 'dd-MM-yyyy HH:mm')}} - {{protocolDose.text}}
+                                    </span>
+                                    <span *ngIf="protocolDose.isShowDate == false" style="margin-left: 133px;">
+                                        {{(protocolDose.date | date : 'HH:mm')}} - {{protocolDose.text}}
+                                    </span><br/>
+                                    <!-- {{ protocolDose.isShowDate == true ? (protocolDose.date | date : 'dd-MM-yyyy HH:mm') : (protocolDose.date | date : 'HH:mm')}} - {{protocolDose.text}}<br /> -->
+                                </span>
+                            </span>
+                            <span *ngIf="medsSum.protocolmessage">{{medsSum.protocolmessage}}</span><br />
+                            <!-- <span *ngIf="medsSum.prescriptionenddate">
+                                END DATE: {{medsSum.prescriptionenddate | date : 'dd-MM-yyyy HH:mm'}}<br/>
+                            </span> -->
+                            ROUTE&nbsp;:&nbsp;{{medsSum.route}} <br />
+                            {{medsSum.quantity}} <br />
+                            <div style="font-size: 0.8em; text-decoration: italic;" *ngIf="medsSum.status != null">
+                                REASON FOR STATUS&nbsp;:&nbsp;{{medsSum.status}}
+                                <br />
+                            </div>
+                            INDICATION&nbsp;:&nbsp;{{medsSum.indication}} <br />
+                            COMMENTS&nbsp;:&nbsp;{{medsSum.comments}}
+                        </td>
+                        <td>
+        
+                        </td>
+                        <td>
+                            
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <table id="tblPresciber" style="width:100%;" class="table table-bordered">
+        <tr style="height:5em;">
+            <td colspan="2" style="width:100%">
+                <strong>Prescribed&nbsp;by&nbsp;:</strong>
+                <span style="color: red;">Please Sign & PRINT IN BLOCK CAPITALS</span>
+            </td>
+            
+        </tr>
+        <tr style="height:5em;">
+            <td style="width:50%;">
+                <strong>Professional&nbsp;Registration&nbsp;Number&nbsp;:</strong>
+            </td>
+            <td style="width:50%;">
+                <strong>Date&nbsp;Prescribed&nbsp;:</strong>
+            </td>
+        </tr>
+        <tr style="height:5em;">
+            <td style="width:50%">
+                <strong>Pharmacist&nbsp;name&nbsp;:</strong>
+            </td>
+            <td style="width:50%">
+                <strong>Pharmacist&nbsp;signature&nbsp;:</strong>
+            </td>
+        </tr>
+        <tr style="height:5em;">
+            <td colspan="2" style="width:100%">
+                <strong>Date&nbsp;:</strong>
+            </td>
+        </tr>
+        <tr style="height:5em;">
+            <td style="width:50%;">
+                <strong>Collector&nbsp;name&nbsp;:</strong>
+            </td>
+            <td style="width:50%;">
+                <strong>Collector&nbsp;signature&nbsp;:</strong>
+            </td>
+        </tr>
+        <tr style="height:5em;">
+            <td colspan="2" style="width:100%">
+                <strong>Date&nbsp;collected&nbsp;:</strong>
+            </td>
+        </tr>
+    </table>
+</ng-template>
+
+
+<app-print-medication *ngIf="isDataReady==true" [customTemplate]="dischargeSummaryPrescription" [patientDetails]="patientDetails" [view]="'l'" (destroyComponent)="pdfDownloaded()" [dimensions]="[842, 595]"></app-print-medication>

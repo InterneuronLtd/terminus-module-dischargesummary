@@ -1,0 +1,53 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<!-- <div *ngIf="selectedSummaryView === 'edit clinical summary'"> -->
+    <div class="row">
+        <div class="col-md-8">
+          <a class="text-secondary float-left" style="padding-right:5px;" data-toggle="tooltip" data-placement="top" title="Back to discharge summaries list" (click)="listView()"> <i class="fa fa-arrow-left"></i> </a>
+            <h5 class="text-secondary">View Discharge Summary</h5>
+        </div>
+        <div class="col-md-4" style="text-align: right; font-size: 1.2em;">
+          <a href="javascript:void(0);" class="btn btn-white" data-bs-toggle="modal" (click)="print();"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print">  </a>  
+          <!-- <a class="text-secondary" style="padding-right:5px;" data-toggle="tooltip" data-placement="top" title="Back to discharge summaries list" (click)="listView()"> <i class="fa fa-list"></i> </a> -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <app-discharge-summary-banner [personDetails]="personDetails"></app-discharge-summary-banner>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <app-view-discharge-summary [notesData]="notesData" (viewChange)="getNotification($event)"></app-view-discharge-summary>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+          <div class="col-md-12">
+              <app-discharge-paperwork-tta-declaration [notesData]="notesData" (viewChange)="getNotification($event)"></app-discharge-paperwork-tta-declaration>
+          </div>
+      </div>
+      
+      <div style="height:120px;">
+    
+      </div>
+  <!-- </div> -->

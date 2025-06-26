@@ -1,0 +1,76 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div id="divAllergies">
+    <div class="row">
+        <div class="col-md-8">
+            <h5>Allergies and Adverse Reactions</h5>
+        </div>
+        <div class="col-md-4" style="text-align: right;">
+            <!-- <a href="#" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#importEPMAModal"><img src="/Images/Import.png" height="30px;" alt="Import from discharge summary">  </a>
+            <a href="#" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#printMedicationListModal"><img src="/Images/PrintIcon.png" height="30px;" alt="Print">  </a> -->
+        </div>
+    </div>
+    <p-table #dt1 [value]="allergyIntoleranceList" styleClass="p-datatable-gridlines p-datatable-sm" responsiveLayout="scroll">
+                
+        <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 10%;vertical-align: top;">Allergen</th>    
+              <th style="vertical-align: top;">Criticality</th>    
+              <th style="width: 12%;vertical-align: top;">Category</th>  
+              <th style="vertical-align: top;">Reaction</th>    
+              <th style="width: 12%;vertical-align: top;">Status</th>    
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-allergy_list>
+            <tr>
+              <td style="width: 10%;word-wrap: break-word;">
+                {{allergy_list.causativeagentdescription}}
+              </td>    
+              <td>{{allergy_list.criticality == 'Unable to Assess' ? '' : allergy_list.criticality}}</td>    
+              <td style="width: 12%;">{{allergy_list.category}}</td>    
+              <td>
+                <div *ngIf="allergy_list?.reactionconcepts.length > 0">
+                  <div *ngFor="let reaction of allergy_list?.reactionconcepts">
+                    <span style="font-size: 15px;">
+                    {{(reaction.term)?reaction.term:reaction._term}}
+                    </span>
+                  </div>
+                </div>
+              </td>    
+              <td style="width: 12%;">{{allergy_list.clinicalstatusvalue}}</td>      
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+              <td colspan="5">No data available.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    <br />
+    <div class="alert alert-light border"  style="font-size:0.8em;">
+        <strong><i class="fa fa-info-circle"></i> Data source : Clinical Portal | Allergies Module</strong>
+        <br />
+        This data is from the Allergies Module. To make changes please click the 'Open Allergies Module' button below, make the changes and then come back.
+        <br />
+        <!-- <button class="btn btn-secondary btn-sm edit-allergies" data-bs-toggle="modal" data-bs-target="#allergiesModal"><i class="fa fa-pencil"></i> Open Allergies Module</button> -->
+        <button class="btn btn-secondary btn-sm edit-allergies" data-bs-toggle="modal" data-bs-target="#allergiesModal" (click)="resolveModule('allergies')" [disabled]="isPatientDischarged"><i class="fa fa-pencil"></i> Open Allergies Module</button>
+    </div>
+</div>

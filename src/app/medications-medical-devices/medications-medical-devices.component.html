@@ -1,0 +1,133 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div id="divMedicationsAndDevices">
+    <div class="row">
+        <div class="col-md-8">
+            <h5><span class="text-danger">*</span>Medication and Devices</h5>
+        </div>
+        <div class="col-md-4" style="text-align: right;" *ngIf="frmComponent != 'view discharge summary'">
+            <!-- <a href="javascript:void(0);" class="btn btn-white" (click)="refresh();"><i class="fa fa-refresh fa-2x"></i></a> -->
+            <!-- <a href="javascript:void(0);" class="btn btn-white" (click)="print();"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print"></a> -->
+            <a href="javascript:void(0);" class="btn btn-white" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print"></a>
+            <!-- <button class="Print_record button-dropdown float-right" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button> -->
+            <div class="dropdown-menu options-width">
+                <a class="dropdown-item dropdown-options" href="javascript:void(0)" (click)="print()"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print All Discharge Drugs"> Print All Discharge Drugs</a>
+                <a class="dropdown-item dropdown-options" href="javascript:void(0)" (click)="print(true);"><img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print Controlled Drugs Only"> Print Controlled Drugs Only</a>
+            </div>
+            
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Drug Details
+                </th>
+                <!-- <th>
+
+                </th> -->
+                <th>
+                  Supply on Discharge
+                </th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let dsp of dischargesummaryprescription;">
+            <tr>
+                <th colspan="8" class="bg-light">
+                    {{dsp.category}}
+                </th>
+            </tr>
+            <tr *ngFor="let medsSum of dsp.medicationssummaries; let i= index;">
+                <td>
+                    <strong>{{medsSum.name}}</strong> <br />
+                    <div *ngIf="medsSum.iscontrolleddrug"><strong class="text-danger">* Controlled Drug</strong><br /></div>
+                    <!-- DOSE: {{medsSum.dose}} -->
+                    <span *ngIf="medsSum.protocoldose?.length == 0">DOSE: {{medsSum.dose}}</span>
+                    <span *ngIf="medsSum.protocoldose?.length > 0">
+                        DOSE:
+                        <!-- <span *ngFor="let protocolDose of medsSum.protocoldose">
+                            {{ protocolDose.isShowDate == true ? (protocolDose.date | date : 'dd-MM-yyyy HH:mm') : (protocolDose.date | date : 'HH:mm')}} - {{protocolDose.text}}<br />
+                        </span> -->
+                        <span *ngFor="let protocolDose of medsSum.protocoldose; let i = index">
+                            <span *ngIf="protocolDose.isShowDate == true" [ngStyle]="{'margin-left': i > 0 ?'45px':''}">
+                                {{(protocolDose.date | date : 'dd-MM-yyyy HH:mm')}} - {{protocolDose.text}}
+                            </span>
+                            <span *ngIf="protocolDose.isShowDate == false" style="margin-left: 118px;">
+                                {{(protocolDose.date | date : 'HH:mm')}} - {{protocolDose.text}}
+                            </span><br/>
+                            <!-- {{ protocolDose.isShowDate == true ? (protocolDose.date | date : 'dd-MM-yyyy HH:mm') : (protocolDose.date | date : 'HH:mm')}} - {{protocolDose.text}}<br /> -->
+                        </span>
+                    </span>
+                    <span *ngIf="medsSum.protocolmessage">{{medsSum.protocolmessage}}</span><br />
+                    <!-- <span *ngIf="medsSum.prescriptionenddate">
+                        END DATE: {{medsSum.prescriptionenddate | date : 'dd-MM-yyyy HH:mm'}}<br/>
+                    </span> -->
+                    ROUTE: {{medsSum.route}} <br />
+                    {{medsSum.quantity}} <br />
+                    <div style="font-size: 0.8em; text-decoration: italic;" *ngIf="medsSum.status != null">
+                        REASON FOR STATUS: {{medsSum.status}}
+                        <br />
+                    </div>
+                    INDICATION: {{medsSum.indication}} <br />
+                    COMMENTS: {{medsSum.comments}}
+                </td>
+                <!-- <td>
+                    <div *ngIf="medsSum.printingrequired && (dsp.category.toLowerCase() != 'stopped' || dsp.category.toLowerCase() != 'suspended') ">
+                        <a href="javascript:void(0);" class="btn btn-white">
+                            <img src="assets/images/dischargesummary/PrintIcon.png" height="30px;" alt="Print">
+                        </a>
+                    </div>
+                </td> -->
+                <td>
+                    <div *ngIf="medsSum.supplyrequired != null && medsSum.supplyrequired.toLowerCase() == 'no'">
+                        <!-- {{medsSum.supplyrequired}} <br /> -->
+                        {{medsSum.supplyrequiredreason}}
+                    </div>
+                    <div *ngIf="medsSum.supplyrequired != null && medsSum.supplyrequired.toLowerCase() == 'yes'">
+                        {{medsSum.supplyrequired}} <br />
+                        <div *ngIf="appservice.dischageDrugDisplayTTAName">{{medsSum.supplyMedication}}<br /></div>
+                        {{medsSum.requestedquantity}} 
+                        {{medsSum.requestedquantityunits}} <br />
+                        {{medsSum.requestordermessage}}
+                 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- <br />
+    <button type="button" class="btn btn-secondary" (click)="saveMeds()">Save</button>
+    <br /> -->
+    <br/>
+    <div class="alert alert-light border" style="font-size:0.8em;">
+        <strong><i class="fa fa-info-circle"></i> Data source : Clinical Portal | EPMA Module</strong>
+        <br />
+        This data is from the EPMA Module Discharge Summary. To make changes please select the EPMA module from the list of Applications, make the changes and then come back.
+    </div>
+</div>
+<div *ngIf="isPrint">
+    <!-- <app-print-discharge-prescription class="pdfUseOnly" [isControlledDrug]="isControlledDrug" [dischargeSummaryPrescriptionId]="dischargeSummaryPrescriptionId" (destroyComponent)="pdfDownloaded()"></app-print-discharge-prescription> -->
+    <app-print-discharge-prescription class="pdfUseOnly" [isControlledDrug]="isControlledDrug" (destroyComponent)="pdfDownloaded()"></app-print-discharge-prescription>
+</div>
+<div *ngIf="isLoading" id="pause" class="d-flex align-items-center justify-content-center">
+    <div id="spinner"></div>
+</div>

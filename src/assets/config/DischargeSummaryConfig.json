@@ -1,0 +1,24 @@
+{
+    "uris": {
+      "baseuri": "SYNAPSE_DYNAMIC_URI",
+      "carerecorduri":"CARERECORD_URI",
+      "terminologyuri": "TERMINOLOGY_URI/api/Terminology/searchsnomed/VALUE"
+    
+    },
+    "enablelogging": true,
+    "AppSettings": {
+      "Modules": [
+        {
+          "domelement" : "app-terminus-allergies",
+          "module":"allergies"
+        },
+        {
+          "domelement" : "app-clinical-summary",
+          "module":"clinicalsummary"
+        }
+      ]
+    },
+    "hospitalNumberTypeCode": "MRN",
+    "dischageDrugDisplayTTAName_print":true,
+    "dischageDrugDisplayTTAName":true
+ }

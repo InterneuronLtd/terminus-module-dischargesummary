@@ -1,0 +1,122 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div style="font-size: 0.8em;">
+    <div class="row">
+      <div class="col-10" style="padding-left: 12px;">
+        <h3 style="color:#535e7e">
+            Discharge Summaries
+        </h3>
+      </div>
+    </div>
+
+    <p-table #dt1 [value]="dischargeSummaryList" styleClass="p-datatable-gridlines p-datatable-sm" responsiveLayout="scroll">
+
+      <ng-template pTemplate="header">
+          <tr>
+            <!-- <th style="vertical-align: top;">Encounter ID</th> -->
+            <th style="vertical-align: top;">Admission Date</th>
+            <th style="vertical-align: top;">Discharge Date</th>
+            <th style="vertical-align: top;">Reason for admission</th>
+            <th style="vertical-align: top;">Responsible care professional</th>
+            <!-- <th style="width: 18%;vertical-align: top;">Date Completed</th>
+            <th style="width: 12%;vertical-align: top;">Completed by</th> -->
+            <th style="vertical-align: top;">Status</th>
+            <th style="vertical-align: top;"></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-discharge_summary_list>
+          <tr>
+            <!-- <td>{{discharge_summary_list.encounter_id}}</td> -->
+            <td style="word-wrap: break-word;">{{discharge_summary_list.admitdatetime}}</td>
+            <td>{{discharge_summary_list.dischargedatetime}}</td>
+            <td>{{discharge_summary_list.admitreasontext}}</td>
+            <td>{{discharge_summary_list.consultingdoctortext}}</td>
+            <!-- <td style="width: 18%;">{{discharge_summary_list.dateCompleted}}</td>
+            <td style="width: 12%;">{{discharge_summary_list.completedBy}}</td> -->
+            <td >
+              <!-- <a href="javascript:void(0);" class="badge badge-secondary"> -->
+                {{discharge_summary_list.status}}
+              <!-- </a> -->
+            </td>
+            <td *ngIf="discharge_summary_list.status == 'Patient Leave Summary Complete'">
+              <a href="javascript:void(0);" (click)="viewPDF(discharge_summary_list.patientleavesummary_id, modalTemplate)">
+                <img src="assets/images/dischargesummary/eye.svg" height="30px;" alt="View PDF">
+              </a>
+            </td>
+            <td style="text-align: center;" *ngIf="discharge_summary_list.status != 'Patient Leave Summary Complete'">
+              <a href="javascript:void(0);" class="btn btn-secondary btn-sm" (click)="loadStatusView(discharge_summary_list.admitdatetime,discharge_summary_list.dischargedatetime,discharge_summary_list.status,discharge_summary_list.person_id,discharge_summary_list.encounter_id)">
+                <i class="fa fa-arrow-right"></i>
+              </a>
+            </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8">No data available.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+<ng-template #modalTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title" id="ViewPDF">View PDF</h5>
+    <button type="button" class="close" (click)="modalRef?.hide()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="!isPdfGenerated">
+      <div class="d-flex justify-content-center mb-1">
+        Please wait
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-grow spinner-grow-sm" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isPdfGenerated">
+      <div class="card">
+        <div class="card-body">
+          <ngx-extended-pdf-viewer height="calc(100vh - 375px)" [useBrowserLocale]="true"
+            [base64Src]="patientLeaveSummary.pdfblob" [showSidebarButton]="false" [showFindButton]="false"
+            [showPagingButtons]="true" [showZoomButtons]="true" [showPresentationModeButton]="false"
+            [showOpenFileButton]="false" [showPrintButton]="false" [showDownloadButton]="false"
+            [showBookmarkButton]="false" [showSecondaryToolbarButton]="false" [showRotateButton]="false"
+            [showHandToolButton]="false" [showScrollingButton]="false" [showSpreadButton]="false"
+            [showPropertiesButton]="false">
+          </ngx-extended-pdf-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="downloadPdf()">Download</button>
+    <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Close</button>
+  </div>
+</ng-template>

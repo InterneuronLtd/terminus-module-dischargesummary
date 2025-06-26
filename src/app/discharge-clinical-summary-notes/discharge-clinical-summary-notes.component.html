@@ -1,0 +1,81 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2025  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div *ngIf="clinicalNotesData"[ngClass]="showErrorMessage ? 'alert alert-light border border-danger rounded' : ''">
+    <div class="row">
+        <!-- <div class="col-12" style="padding-left: 12px;"> -->
+            <div class="col-md-8">
+                <h5><span class="text-danger">*</span><span [ngClass]="showErrorMessage ? 'text-danger' : ''">Clinical Summary Notes</span></h5>
+            </div>
+            <div class="col-md-4" style="text-align: right;">
+                <a *ngIf="clinicalNotesData && !isDisabled" href="javascript:void(0);" class="btn btn-white" (click)="importData()"><img src="assets/images/dischargesummary/Import.png" height="30px;" alt="Import from discharge summary">  </a>
+                <a  href="javascript:void(0);" class="btn btn-white" (click)="viewHistory()"><img src="assets/images/dischargesummary/History.png" height="30px;" alt="View field history">  </a>
+                <a  *ngIf="!isDisabled" href="javascript:void(0);" class="btn btn-white" (click)="openEditClinicalSummaryNotesDialog()">
+                    <img src="assets/images/dischargesummary/editIcon.svg" height="30px" style="float:right;margin-right:8px">
+                </a>
+            </div>
+        <!-- </div> -->
+        <!-- <div class="col-2" style="text-align: right; padding-top: 8px;">
+            <img src="assets/images/clinicalsummary/history.svg" height="18px" style="float:right;margin-right:8px" (click)="viewHistory()">
+        </div> -->
+    </div>
+
+    <ckeditor style="display: none;" *ngIf="clinicalNotesData && !isDisabled" id="ds-classic-editor" [editor]="Editor" [(ngModel)]="clinicalsummarynotes" [disabled]="isPatientDischarged"></ckeditor>
+
+    <div *ngIf="!isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="clinicalsummarynotes" (click)="openEditClinicalSummaryNotesDialog()" ></div>
+
+    <div *ngIf="isDisabled" class="border rounded" style="padding:10px; word-wrap: break-word; height:250px !important; overflow: scroll" [innerHTML]="clinicalsummarynotes" ></div>
+
+    <div [hidden]="!showErrorMessage" class="text-danger">
+        <i>Clinical Summary Notes is required</i>
+    </div>
+    <div *ngIf="!showCancelSaveButtons" style="font-size: 0.8em;font-style: italic;text-align: right;" class="text-secondary">
+        {{createdby}}
+        {{createddatetime | date : 'dd-MM-yyy HH:mm'}}
+    </div>
+    <!-- <div class="container" *ngIf="showCancelSaveButtons" style="font-size: 0.8em;padding-top: 10px;">
+        <button type="button" class="btn btn-light" style="float: left;" (click)="dismiss()">Cancel</button>&nbsp;
+        <button type="button" class="btn btn-info text-white" style="float: right;" (click)="saveClinicalSummary()">Save</button>
+    </div> -->
+</div>
+
+<!-- Modal Discharge Summary Completed -->
+<ng-template #dischargeSummaryCompleted let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title text-dark" id="dischargeSummaryCompleted-title">Discharge Summary Completed</h4>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div>
+          <div class=""  style="font-size:0.8em; margin-top:5px; margin-left: 5px;">
+            <strong><i class="fa fa-info-circle"></i> Discharge summary is already completed by the {{dischargeSummaryCompletedBy}} and the system is unable to update the data</strong>
+            <!-- <br />
+            <button class="btn btn-secondary btn-sm edit-vte" data-bs-toggle="modal" data-bs-target="#vteModal"><i class="fa-solid fa-pencil"></i> Open Assessments Module</button> -->
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+  
+      <button type="button" class="btn btn-info text-white" style="float: right;" (click)="reloadPage()"
+          >Ok</button>
+  
+    </div>
+  </ng-template>
